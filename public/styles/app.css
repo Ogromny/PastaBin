@@ -1,0 +1,27 @@
+body {
+    /*animation-name: header;
+    animation-duration: 10s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;*/
+}
+
+#header {
+    border-bottom: 1px solid #bdc3c7;
+}
+
+#header .title {
+    color: #e74c3c;
+}
+
+/*@keyframes header {
+    10% { background-color: #1abc9c; }
+    20% { background-color: #2ecc71; }
+    30% { background-color: #3498db; }
+    40% { background-color: #9b59b6; }
+    50% { background-color: #34495e; }
+    60% { background-color: #f1c40f; }
+    70% { background-color: #e67e22; }
+    80% { background-color: #e74c3c; }
+    90% { background-color: #ecf0f1; }
+    100% { background-color: #95a5a6; }
+}*/
