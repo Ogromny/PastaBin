@@ -1,0 +1,14 @@
+doctype html
+html
+    head
+        block title
+        meta(charset="utf-8")
+        link(rel="stylesheet", href="#{req.rootDir}styles/kube.css")
+        link(rel="stylesheet", href="#{req.rootDir}styles/app.css")
+        
+    body
+        row
+            column#header(cols="12")
+                h1.title.end.text-centered PastaBin
+        
+        block content

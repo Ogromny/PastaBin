@@ -1,0 +1,9 @@
+extends layout
+
+block title
+    title PastaBin - Encrypt
+
+block content
+    row
+        column(cols="12").text-centered
+            a.btn(href="/decrypt/#{message.hash}/{message.password}/", type="primary", big) Decrypt Link

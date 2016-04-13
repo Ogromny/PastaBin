@@ -1,0 +1,16 @@
+extends layout
+
+block title
+    title PastaBin - Error
+
+block content
+    row
+        column(cols="12")
+            h1.text-centered
+                mark #{req}
+    row
+        column(cols="12")
+            h2.text-centered
+                samp #{error.code}
+                samp #{error.debugMessage}
+                samp #{error.message}

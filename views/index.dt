@@ -1,0 +1,33 @@
+extends layout
+
+block title
+    title PastaBin - Encrypt
+
+block content
+    row(centered)
+        column#pasta_encrypt_zone(cols="8")
+            form.forms(action="encrypt", method="post")
+                fieldset
+                    legend Encryption Z0NE
+
+                    section
+                        label(for="message_title") Title
+                        input(type="text", name="message_title")
+                        
+                    section
+                        label(for="message_content") Message
+                        textarea(name="message_content", rows="8", cols="40")
+                    
+                    section
+                        label(for="message_password") Password
+                        input(type="text", name="message_password")
+                        
+                    //- section
+                    //-     label(for="message_expiration") Expiration
+                    //-     select(class="select", name="message_expiration")
+                    //-         option(value="10 Minutes") 10 Minutes
+                    //-         option(value="1 Hour") 1 Hour
+                    //-         option(value="1 Day") 1 Day
+                    //-         option(value="30 Days") 30 Days
+                    
+                    input.btn(type="submit", value="Make")
