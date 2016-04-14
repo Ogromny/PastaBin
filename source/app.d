@@ -1,24 +1,10 @@
 import vibe.d;
-import std.digest.md;
-import vibe.data.bson;
 import vibe.db.mongo.mongo;
-import std.conv;
+import std.digest.sha;
+import Encrypt;
+import Message;
 
-struct Message {
-	string hash;
-	string title;
-	string content;
-	string password;
-
-	Bson toBson() {
-		return Bson (
-				["hash": Bson(this.hash),
-				 "title": Bson(this.title),
-				 "content": Bson(this.content),
-				 "password": Bson(this.password)]
-			);
-	}
-}
+enum secretKey = "PastaBin";
 
 void errorPage(HTTPServerRequest req, HTTPServerResponse res, HTTPServerErrorInfo error)
 {
@@ -28,24 +14,35 @@ void errorPage(HTTPServerRequest req, HTTPServerResponse res, HTTPServerErrorInf
 void encrypt(HTTPServerRequest req, HTTPServerResponse res)
 {
 	Message message;
-	message.hash     = toHexString(md5Of(req.form["message_title"] ~ req.form["message_content"] ~ req.form["message_password"]));
-	message.title    = req.form["message_title"];
-	message.content  = req.form["message_content"];
-	message.password = req.form["message_password"];
+
+	string password = toHexString(sha256Of(req.form["message_password"] ~ secretKey));
+	message.content(encrypt_string(req.form["message_content"], password));
+	message.hash(toHexString(sha256Of(message.content())));
 
 	MongoCollection pastabin_message = connectMongoDB("127.0.0.1").getCollection("pastabin.message");
-
-	// uniquifie le hash
-	message.hash = toHexString(md5Of(message.hash ~ to!string(pastabin_message.count(""))));
-
 	pastabin_message.insert(message.toBson());
 
-	res.render!("encrypt.dt", req, message);
+	/*debug*/ std.stdio.writefln("DEBUG: encrypt() -> content => %s", message.content);
+
+	res.render!("encrypt.dt", req, password, message);
 }
 
 void decrypt(HTTPServerRequest req, HTTPServerResponse res)
 {
-	res.writeBody(req.params["hash"] ~ " :: " ~ req.params["password"]);
+	Message message;
+
+	string password = toHexString(sha256Of(req.params["password"] ~ secretKey));
+	message.hash(req.params["hash"]);
+
+	MongoCollection pastabin_message = connectMongoDB("127.0.0.1").getCollection("pastabin.message");
+	auto content = pastabin_message.findOne(["hash": message.hash()], ["_id": 0, "hash": 0]).toJson();
+
+	auto content_a = content["content"].toString();
+	/*debug*/ std.stdio.writeln(content_a);
+
+	message.content(decrypt_string(content_a, password));
+
+	res.writeBody(req.params["hash"] ~ " :: " ~ req.params["password"] ~ "::" ~ message.content());
 }
 
 shared static this()
