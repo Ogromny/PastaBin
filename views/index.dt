@@ -9,10 +9,6 @@ block content
             form.forms(action="encrypt", method="post")
                 fieldset
                     legend Encryption Z0NE
-
-                    section
-                        label(for="message_title") Title
-                        input(type="text", name="message_title")
                         
                     section
                         label(for="message_content") Message
