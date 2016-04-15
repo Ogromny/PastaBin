@@ -1,48 +1,65 @@
+/* vibe */
 import vibe.d;
 import vibe.db.mongo.mongo;
+import vibe.data.bson;
+/* std */
 import std.digest.sha;
+/* extern .d */
 import Encrypt;
-import Message;
 
+/* for creating password */
 enum secretKey = "PastaBin";
+/* for manipulate the collecitons */
+MongoCollection pastabin_message;
 
-void errorPage(HTTPServerRequest req, HTTPServerResponse res, HTTPServerErrorInfo error)
-{
-	res.render!("error.dt", req, error);
-}
-
+/**
+ * Create:
+ * password -> Sha256 of password and secretKey
+ * content  -> encrypted content with password
+ * hash     -> Sha256 of content
+ * Insert in BDD content and hash
+ * Return template encrypt.dt
+ * ------------------------------
+ * @param  HTTPServerRequest  req           Request object
+ * @param  HTTPServerResponse res           Response object
+ * @return void
+ */
 void encrypt(HTTPServerRequest req, HTTPServerResponse res)
 {
-	Message message;
-
 	string password = toHexString(sha256Of(req.form["message_password"] ~ secretKey));
-	message.content(encrypt_string(req.form["message_content"], password));
-	message.hash(toHexString(sha256Of(message.content())));
+	string content  = encrypt_string(req.form["message_content"], password);
+	string hash     = toHexString(sha256Of(content));
 
-	MongoCollection pastabin_message = connectMongoDB("127.0.0.1").getCollection("pastabin.message");
-	pastabin_message.insert(message.toBson());
+	/* Bson(["hash": Bson(hash), "content": Bson(content)]) */
+	Bson message = Bson.emptyObject;
+	message["hash"] = hash;
+	message["content"] = content;
 
-	/*debug*/ std.stdio.writefln("DEBUG: encrypt() -> content => %s", message.content);
+	pastabin_message.insert(message);
 
-	res.render!("encrypt.dt", req, password, message);
+	res.render!("encrypt.dt", req, password, hash);
 }
 
+/**
+ * Create:
+ * password -> Sha256 of password passed throw req and secretKey
+ * hash		-> hash passed throw req
+ * content  -> find content in BDD and decrypt it with password
+ * Return template decrypt.dt
+ * ------------------------------
+ * @param  HTTPServerRequest  req           Request object
+ * @param  HTTPServerResponse res           Response object
+ * @return void
+ */
 void decrypt(HTTPServerRequest req, HTTPServerResponse res)
 {
-	Message message;
-
 	string password = toHexString(sha256Of(req.params["password"] ~ secretKey));
-	message.hash(req.params["hash"]);
+	string hash     = req.params["hash"];
+	string content  = decrypt_string(pastabin_message.findOne(["hash": hash], ["_id": 0, "hash": 0]).toJson()["content"].toString(), password);
 
-	MongoCollection pastabin_message = connectMongoDB("127.0.0.1").getCollection("pastabin.message");
-	auto content = pastabin_message.findOne(["hash": message.hash()], ["_id": 0, "hash": 0]).toJson();
+	content = content[1 .. $-1];
 
-	auto content_a = content["content"].toString();
-	/*debug*/ std.stdio.writeln(content_a);
-
-	message.content(decrypt_string(content_a, password));
-
-	res.writeBody(req.params["hash"] ~ " :: " ~ req.params["password"] ~ "::" ~ message.content());
+	res.render!("decrypt.dt", req, content);
 }
 
 shared static this()
@@ -54,9 +71,11 @@ shared static this()
 	router.get("*", serveStaticFiles("public"));
 
 	HTTPServerSettings settings = new HTTPServerSettings;
-	settings.errorPageHandler = toDelegate(&errorPage);
-	settings.bindAddresses = ["127.0.0.1"];
-	settings.port = 8080;
+	settings.errorPageHandler   = toDelegate((HTTPServerRequest req, HTTPServerResponse res, HTTPServerErrorInfo error) => res.render!("error.dt", req, error));
+	settings.bindAddresses      = ["127.0.0.1"];
+	settings.port               = 8080;
+
+	pastabin_message = connectMongoDB("127.0.0.1").getCollection("pastabin.message");
 
 	listenHTTP(settings, router);
 }

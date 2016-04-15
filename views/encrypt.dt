@@ -6,4 +6,4 @@ block title
 block content
     row
         column(cols="12").text-centered
-            a.btn(href="/decrypt/#{message.hash()}/#{password}/", type="primary", big) Decrypt Link
+            a.btn(href="/decrypt/#{hash}/#{password}/", type="primary", big) Decrypt Link

@@ -5,10 +5,12 @@ module Encrypt;
     Donc wait l'amis ça vient
  */
 
-string encrypt_string(string content, string password) @trusted {
+string encrypt_string(string content, string password) @trusted
+{
     return content;
 }
 
-string decrypt_string(string content, string password) @trusted {
+string decrypt_string(string content, string password) @trusted
+{
     return content;
 }

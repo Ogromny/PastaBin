@@ -1,23 +1,18 @@
 extends layout
 
 block title
-    title PastaBin - Encrypt
+    title PastaBin - Decrypt
 
 block content
     row(centered)
         column(cols="8")
-            form.forms(action="encrypt", method="post")
+            form.forms
                 fieldset
-                    legend Encryption Z0NE
+                    legend Decrypted Z0NE
                         
                     section
                         label(for="message_content") Message
-                        textarea(name="message_content", rows="8", cols="40")
-                    
-                    section
-                        label(for="message_password") Password
-                        input(type="text", name="message_password")
-                        
+                        textarea(name="message_content", rows="8", cols="40") #{content}
                     //- section
                     //-     label(for="message_expiration") Expiration
                     //-     select(class="select", name="message_expiration")
