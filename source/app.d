@@ -43,7 +43,7 @@ void encrypt(HTTPServerRequest req, HTTPServerResponse res)
 /**
  * Create:
  * password -> Sha256 of password passed throw req and secretKey
- * hash		-> hash passed throw req
+ * hash     -> hash passed throw req
  * content  -> find content in BDD and decrypt it with password
  * Return template decrypt.dt
  * ------------------------------
