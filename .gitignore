@@ -13,11 +13,9 @@
 
 # Executables
 *.exe
+pastabin
 
 # DUB
 .dub
 docs.json
 __dummy.html
-
-# tmp file
-tmp.d
