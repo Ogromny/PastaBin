@@ -24,5 +24,6 @@ apt-get install dub dmd
 
 #### Ubuntu
 ```d
-string ubuntu = Bullshit();
+OS ubuntu = Bullshit();
+ubuntu.goTo("Debian");
 ```
