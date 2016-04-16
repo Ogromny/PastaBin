@@ -1,4 +1,6 @@
 # PastaBin
+## Version:
+    0.1A
 
 ## Dépendance:
 
