@@ -1,24 +1,24 @@
 extends layout
 
 block title
-    title PastaBin - Decrypt
+  title PastaBin - Encrypt
 
 block content
-    row(centered)
-        column(cols="8")
-            form.forms
-                fieldset
-                    legend Decrypted Z0NE
-                        
-                    section
-                        label(for="message_content") Message
-                        textarea(name="message_content", rows="8", cols="40") #{content}
-                    //- section
-                    //-     label(for="message_expiration") Expiration
-                    //-     select(class="select", name="message_expiration")
-                    //-         option(value="10 Minutes") 10 Minutes
-                    //-         option(value="1 Hour") 1 Hour
-                    //-         option(value="1 Day") 1 Day
-                    //-         option(value="30 Days") 30 Days
-                    
-                    input.btn(type="submit", value="Make")
+  form.forms(action="fork", method="post")
+    row#paste-infos
+      div#size-wrapper
+        column(cols="11")
+          h1.text #{title}
+        column(cols="1")
+          input.btn(type="submit", value="Fork!")
+    
+    row    
+      section#paste-content
+        textarea#size-wrapper(name="paste_content") #{content}
+
+
+        //- select(class="select", name="message_expiration")
+        //-   option(value="10 Minutes") 10 Minutes
+        //-   option(value="1 Hour") 1 Hour
+        //-   option(value="1 Day") 1 Day
+        //-   option(value="30 Days") 30 Days

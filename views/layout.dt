@@ -1,14 +1,24 @@
 doctype html
 html
-    head
-        block title
-        meta(charset="utf-8")
-        link(rel="stylesheet", href="#{req.rootDir}styles/kube.css")
-        link(rel="stylesheet", href="#{req.rootDir}styles/app.css")
+  head
+    block title
+    meta(charset="utf-8")
+    link(rel="stylesheet", href="#{req.rootDir}styles/kube.css")
+    link(rel="stylesheet", href="#{req.rootDir}styles/app.css")
         
-    body
-        row
-            column#header(cols="12")
-                h1.title.end.text-centered PastaBin
+  body
+    row#header
+      div#size-wrapper
+        column(cols="4")
+          h1.logo PastaBin
+        column(cols="8")
+          nav#menu
+            ul
+              li
+                a(href="#") How it works?
+              li
+                a(href="#") API
+              li
+                a(href="#") Contact
         
-        block content
+    block content

@@ -1,29 +1,26 @@
 extends layout
 
 block title
-    title PastaBin - Encrypt
+  title PastaBin - Encrypt
 
 block content
-    row(centered)
+  form.forms(action="encrypt", method="post")
+    row#paste-infos
+      div#size-wrapper
         column(cols="8")
-            form.forms(action="encrypt", method="post")
-                fieldset
-                    legend Encryption Z0NE
-                        
-                    section
-                        label(for="message_content") Message
-                        textarea(name="message_content", rows="8", cols="40")
-                    
-                    section
-                        label(for="message_password") Password
-                        input(type="text", name="message_password")
-                        
-                    //- section
-                    //-     label(for="message_expiration") Expiration
-                    //-     select(class="select", name="message_expiration")
-                    //-         option(value="10 Minutes") 10 Minutes
-                    //-         option(value="1 Hour") 1 Hour
-                    //-         option(value="1 Day") 1 Day
-                    //-         option(value="30 Days") 30 Days
-                    
-                    input.btn(type="submit", value="Make")
+          input.text(type="text", name="paste_title", placeholder="Title of the paste...")
+        column(cols="3")
+          input.text(type="password", name="paste_password", placeholder="Password (optional)")
+        column(cols="1")
+          input.btn(type="submit", value="Paste!")
+    
+    row    
+      section#paste-content
+        textarea#size-wrapper(name="paste_content")
+
+
+        //- select(class="select", name="message_expiration")
+        //-   option(value="10 Minutes") 10 Minutes
+        //-   option(value="1 Hour") 1 Hour
+        //-   option(value="1 Day") 1 Day
+        //-   option(value="30 Days") 30 Days

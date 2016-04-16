@@ -1,27 +1,149 @@
 body {
-    /*animation-name: header;
-    animation-duration: 10s;
-    animation-iteration-count: infinite;
-    animation-direction: alternate;*/
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  background-color: #3b5a6f;
+  color: #f3f4f4;
+  overflow: hidden;
 }
 
+#size-wrapper {
+  max-width: 960px;
+  width: 960px;
+  margin: 0 auto;
+  display: flex;
+}
+
+/**
+*  Header bar.
+**/
 #header {
-    border-bottom: 1px solid #bdc3c7;
+  background-color: #2ECC71;
+  margin-bottom: 0;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-align-items: center;
+  -ms-align-items: center;
+  align-items: center;
+  -webkit-justify-content: center;
+  -ms-justify-content: center;
+  justify-content: center;
+}
+#header .logo {
+  max-width: 100%;
+  margin-bottom: 0;
+  margin-left: 10px;
+  color: #f3f4f4;
+  font-size: 48px;
+  line-height: 62px;
 }
 
-#header .title {
-    color: #e74c3c;
+/**
+*  Menu.
+**/
+nav#menu {
+  max-width: 100%;
+  display: flex;
+  padding: 10px 0;
+}
+nav#menu ul {
+  width: 100%;
+  margin: 0;
+  text-align: right;
+  list-style-type: none;
+}
+nav#menu ul li {
+  display: inline-flex;
+  margin-left: 5px;
+}
+nav#menu ul li a {
+  height: 40px;
+  padding: 7px 10px;
+  display: inline-block;
+
+  background-color: #27AE60;
+  color: #f3f4f4;
+  font-weight: bold;
+  text-decoration: none;
+}
+nav#menu ul li a:hover {
+  background-color: #16A085;
+  color: #ffffff;
 }
 
-/*@keyframes header {
-    10% { background-color: #1abc9c; }
-    20% { background-color: #2ecc71; }
-    30% { background-color: #3498db; }
-    40% { background-color: #9b59b6; }
-    50% { background-color: #34495e; }
-    60% { background-color: #f1c40f; }
-    70% { background-color: #e67e22; }
-    80% { background-color: #e74c3c; }
-    90% { background-color: #ecf0f1; }
-    100% { background-color: #95a5a6; }
-}*/
+/**
+*  Paste infos.
+**/
+#paste-infos {
+  width: 100%;
+  background-color: #2980B9;
+  margin: 0;
+}
+
+#paste-infos h1 {
+  height: 100%;
+  margin: 0px;
+  padding: 4px 10px;
+}
+
+#paste-infos row,
+#paste-infos column {
+  margin: 0;
+}
+
+#paste-infos .btn {
+  width: 100%;
+  padding: 0;
+
+  border-radius: 0;
+  border-left: 1px solid #2980B9;
+  border-right: 1px solid #2980B9;
+
+  background-color: #3498DB;
+  color: #ffffff;
+  font-size: 18px;
+}
+#paste-infos .btn:hover {
+  background-color: #2ECC71;
+}
+
+#paste-infos .text {
+  background-color: #3498DB;
+  border-radius: 0;
+  border: none;
+  border-left: 1px solid #2980B9;
+  border-right: 1px solid #2980B9;
+  color: #ffffff;
+  font-size: 18px;
+}
+#paste-infos .text:hover,
+#paste-infos .text:focus {
+
+  border-radius: 0;
+  color: #ffffff;
+}
+
+/**
+*  Paste content.
+**/
+#paste-content,
+#paste-content textarea {
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
+
+#paste-content textarea {
+  padding: 20px;
+  margin: 0 auto;
+  min-height: 100%;
+  width: 100vw;
+  height: 100vh;
+
+  background-color: #34495E;
+  border: none;
+  color: #f3f4f4;
+}

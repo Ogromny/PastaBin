@@ -27,13 +27,15 @@ MongoCollection pastabin_message;
  */
 void encrypt(HTTPServerRequest req, HTTPServerResponse res)
 {
-	string password = toHexString(sha256Of(req.form["message_password"] ~ secretKey));
-	string content  = encrypt_string(req.form["message_content"], password);
+	string title    = req.form["paste_title"];
+	string password = toHexString(sha256Of(req.form["paste_password"] ~ secretKey));
+	string content  = encrypt_string(req.form["paste_content"], password);
 	string hash     = toHexString(sha256Of(content));
 
 	/* Bson(["hash": Bson(hash), "content": Bson(content)]) */
 	Bson message = Bson.emptyObject;
-	message["hash"] = hash;
+	message["hash"]    = hash;
+	message["title"]   = title;
 	message["content"] = content;
 
 	pastabin_message.insert(message);
@@ -56,12 +58,18 @@ void decrypt(HTTPServerRequest req, HTTPServerResponse res)
 {
 	string password = toHexString(sha256Of(req.params["password"] ~ secretKey));
 	string hash     = req.params["hash"];
-	string content  = decrypt_string(pastabin_message.findOne(["hash": hash], ["_id": 0, "hash": 0]).toJson()["content"].toString(), password);
+	
+	Json paste = pastabin_message
+		.findOne(["hash": hash], ["_id": 0, "hash": 0])
+		.toJson();
+
+	string title    = paste["title"].toString();
+	string content  = decrypt_string(paste["content"].toString(), password);
 
 	content = content[1 .. $-1];
 	content = escape_escaped(content);
 
-	res.render!("decrypt.dt", req, content);
+	res.render!("decrypt.dt", req, title, content);
 }
 
 shared static this()
