@@ -10,7 +10,8 @@ html
     row#header
       div#size-wrapper
         column(cols="4")
-          h1.logo PastaBin
+          h1.logo 
+            a(href="/") PastaBin
         column(cols="8")
           nav#menu
             ul

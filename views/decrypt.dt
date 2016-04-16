@@ -4,7 +4,7 @@ block title
   title PastaBin - Decrypt
 
 block content
-  form.forms(action="fork", method="post")
+  form.forms(action="/fork", method="post")
     row#paste-infos
       div#size-wrapper
         column(cols="11")

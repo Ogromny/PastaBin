@@ -4,7 +4,7 @@ block title
   title PastaBin - Encrypt
 
 block content
-  form.forms(action="encrypt", method="post")
+  form.forms(action="/encrypt", method="post")
     row#paste-infos
       div#size-wrapper
         column(cols="8")
