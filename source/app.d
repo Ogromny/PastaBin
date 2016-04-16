@@ -58,12 +58,12 @@ void decrypt(HTTPServerRequest req, HTTPServerResponse res)
 {
 	string password = toHexString(sha256Of(req.params["password"] ~ secretKey));
 	string hash     = req.params["hash"];
-	
+
 	Json paste = pastabin_message
 		.findOne(["hash": hash], ["_id": 0, "hash": 0])
 		.toJson();
 
-	string title    = paste["title"].toString();
+	string title    = escape_escaped(paste["title"].toString());
 	string content  = decrypt_string(paste["content"].toString(), password);
 
 	content = content[1 .. $-1];
