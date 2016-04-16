@@ -3,7 +3,6 @@
 - [x] Que ça soit fonctionnel
 
 ## _V0.2_
-- [ ] Ajouter un footer
 - [ ] Ajouter un "About me"
 
 ## _V0.3_
