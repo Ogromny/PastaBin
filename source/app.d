@@ -6,6 +6,7 @@ import vibe.data.bson;
 import std.digest.sha;
 /* extern .d */
 import Encrypt;
+import utils;
 
 /* for creating password */
 enum secretKey = "PastaBin";
@@ -58,6 +59,9 @@ void decrypt(HTTPServerRequest req, HTTPServerResponse res)
 	string content  = decrypt_string(pastabin_message.findOne(["hash": hash], ["_id": 0, "hash": 0]).toJson()["content"].toString(), password);
 
 	content = content[1 .. $-1];
+	// content = content.replace("\\r\\n", "\r\n")
+    //                  .replace("\\\"", "\"");
+	content = escape_escaped(content);
 
 	res.render!("decrypt.dt", req, content);
 }
