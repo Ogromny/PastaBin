@@ -8,18 +8,17 @@ block content
     row#paste-infos
       div#size-wrapper
         column(cols="8")
-          input.text(type="text", name="paste_title", placeholder="Title of the paste...")
+          input.text(type="text", name="paste_title", placeholder="Title of the paste...", tabindex="1")
         column(cols="3")
-          input.text(type="password", name="paste_password", placeholder="Password (optional)")
+          input.text(type="password", name="paste_password", placeholder="Password (optional)", tabindex="2")
         column(cols="1")
-          input.btn(type="submit", value="Paste!")
+          input.btn(type="submit", value="Paste!", tabindex="3")
     
-    row    
-      section#paste-content
-        textarea#size-wrapper(name="paste_content")
+    row#paste-content
+      textarea#size-wrapper(name="paste_content", tabindex="0")
 
-
-        //- select(class="select", name="message_expiration")
+      //- TODO: Design this to follow the current material UI.
+        //- select(class="select", name="paste_expiration")
         //-   option(value="10 Minutes") 10 Minutes
         //-   option(value="1 Hour") 1 Hour
         //-   option(value="1 Day") 1 Day
