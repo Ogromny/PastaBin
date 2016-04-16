@@ -1,6 +1,6 @@
 # TODO
 ## _V0.1_
-- [ ] Que ça soit fonctionnel
+- [x] Que ça soit fonctionnel
 
 ## _V0.2_
 - [ ] Ajouter un footer
