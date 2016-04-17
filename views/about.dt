@@ -19,9 +19,9 @@ block content
             img(src="#{req.rootDir}images/Octocat.png", width="150", height="150")
           figcaption We strongly believe in the power of Open-Source!
       column(cols="10")
-        h2 Introducing PastaBin, a secure way to share
-        p.br PastaBin aims to be a secure, modern and fully-featured Pastebin replacement.
-        p It has been designed with the following things in mind: Security, Simplicity and Elegance.
+        h2 Introducing PastaBin, an encrypted way to share
+        p.br PastaBin aims to be an encrypted, modern and fully-featured Pastebin replacement.
+        p It has been designed with the following things in mind: Encrypted, Simple and Elegant
         
         p PastaBin is free software. That's <a href="https://www.gnu.org/philosophy/free-sw.html">free as in freedom</a>, as well as in price. This means PastaBin is yours — to use, modify, and share — because PastaBin is developed by and for the users.
         
