@@ -1,18 +1,9 @@
-input,
-button,
-a {
-  -webkit-transition: all .2s ease-in-out;
-     -moz-transition: all .2s ease-in-out;
-      -ms-transition: all .2s ease-in-out;
-       -o-transition: all .2s ease-in-out;
-          transition: all .2s ease-in-out;
-}
-
 *, *:before, *:after
 {
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
+  transition: none;
 }
 
 html, body {
@@ -36,6 +27,16 @@ a {
 }
 a:hover {
   color: #27AE60;
+}
+
+input,
+button,
+a {
+  -webkit-transition: all .2s ease-in-out;
+     -moz-transition: all .2s ease-in-out;
+      -ms-transition: all .2s ease-in-out;
+       -o-transition: all .2s ease-in-out;
+          transition: all .2s ease-in-out;
 }
 
 /**
