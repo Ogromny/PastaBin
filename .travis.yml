@@ -13,7 +13,7 @@ install:
 
 script:
   - export PATH=$PATH:~/bin/
-  - dub --compiler=$DC -v
+  - dub build --compiler=$DC -v
 
 notifications:
   email: false
