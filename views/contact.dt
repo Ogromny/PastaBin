@@ -17,22 +17,36 @@ block content
         h2 Get in touch with us
         p You can report use bugs, abuse, or anything else using our mail address or via our respective ToxIDs. The ToxID listed ontop is the one of the developer that's online pretty much everytime, but you can also contact the others developers without any fear.
 
-        p Here is a list of the developers that wanted their ToxID to be listed on this page:
-        ul
-          li <b>Ogromny</b>: <a href="tox:10EC72CA34FB138A6246B48DA8A616D008400F95D61201EB3DD70502601C682098CA00A65543">10EC72CA34FB138A6246B48DA8A616D008400F95D61201EB3DD70502601C682098CA00A65543</a>
-          li <b>SkyzohKey</b>: <a href="tox:DFB4958A86122ACF81BB852DBC767DB8A3A7281A8EDBC83121B30C294E29586970B731949415">DFB4958A86122ACF81BB852DBC767DB8A3A7281A8EDBC83121B30C294E29586970B731949415</a>
-
-        p
-
+        h3.text-centered PastaBin Developers
+        
+        div#staff-wrapper
+          row#staff
+            column(cols="4")
+              div
+                img.left(src="https://avatars1.githubusercontent.com/u/10464831?v=3&s=48")
+                div.right
+                  h2.name <a href="https://github.com/Ogromny">Ogromny</a>
+                  p.bio PastaBin is gonna defeat Pastebin.
+              a.tox(href="tox:10EC72CA34FB138A6246B48DA8A616D008400F95D61201EB3DD70502601C682098CA00A65543") Contact Ogromny using Tox
+            column(cols="4")
+              div
+                img.left(src="https://avatars3.githubusercontent.com/u/8523159?v=3&s=48")
+                div.right
+                  h2.name <a href="https://github.com/SkyzohKey">SkyzohKey</a>
+                  p.bio Doing some black magic to get beautiful things.
+              a.tox(href="tox:DFB4958A86122ACF81BB852DBC767DB8A3A7281A8EDBC83121B30C294E29586970B731949415") Contact SkyzohKey using Tox
+              
+        hr
+        
         row
           column(cols="2")
             figure
-              a(href="https://github.com/Ogromny/PastaBin")
+              a(href="https://github.com/Ogromny/PastaBin/issues")
                 img(src="#{req.rootDir}images/Octocat-hero.png", width="150", height="150")
               figcaption Report an issue an become a super-hero!
           column(cols="10")
             h2 Report an issue
-            p If you think you have found an issue and you have 30 seconds to report it to us, you're a super-hero! In order to report a bug, simply go to our <a href="https://github.com/Ogromny/PastaBin">issue tracker</a>. You can <b>create a new issue</b> or comment on an issue already opened.
+            p If you think you have found an issue and you have 30 seconds to report it to us, you're a super-hero! In order to report a bug, simply go to our <a href="https://github.com/Ogromny/PastaBin/issues">issue tracker</a>. You can <b>create a new issue</b> or comment on an issue already opened.
 
             h3 Rules when reporting an issue
             ul
