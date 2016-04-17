@@ -6,13 +6,13 @@ html
     meta(name="viewport", content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0")
     link(rel="stylesheet", href="#{req.rootDir}styles/kube.css")
     link(rel="stylesheet", href="#{req.rootDir}styles/app.css")
-        
-  body.no-overflow
+
+  body
     div#wrapper
       row#header
         div#size-wrapper
           column(cols="4")
-            h1.logo 
+            h1.logo
               a(href="/") PastaBin
           column(cols="8")
             nav#menu
@@ -23,5 +23,5 @@ html
                   a(href="/api") API
                 li
                   a(href="/contact") Contact
-          
+
       block content

@@ -1,0 +1,26 @@
+extends layout-with-scroll
+
+block title
+  title PastaBin - Contact us
+
+block content
+  row#paste-infos
+    div#size-wrapper
+      column(cols="8")
+        h1.text Contact us
+      column(cols="2")
+        a.btn(href="mailto:webmaster@pastabin.ru") via email
+      column(cols="2")
+        a.btn(href="tox:DFB4958A86122ACF81BB852DBC767DB8A3A7281A8EDBC83121B30C294E29586970B731949415") via Tox
+
+  row#size-wrapper
+    div#about-content
+      column(cols="12")
+        h2 Get in touch with us
+        p.br You can report use bugs, abuse, or anything else using our mail address or via our respective ToxIDs.
+        p The ToxID listed ontop is the one of the developer that's online pretty much everytime, but you can also contact the others developers without any fear.
+        
+        p Here is a list of the developers that wanted their ToxID to be listed on this page:
+        ul
+          li <b>Ogromny</b>: <a href="tox:10EC72CA34FB138A6246B48DA8A616D008400F95D61201EB3DD70502601C6820">10EC72CA34FB138A6246B48DA8A616D008400F95D61201EB3DD70502601C6820</a>
+          li <b>SkyzohKey</b>: <a href="tox:DFB4958A86122ACF81BB852DBC767DB8A3A7281A8EDBC83121B30C294E29586970B731949415">DFB4958A86122ACF81BB852DBC767DB8A3A7281A8EDBC83121B30C294E29586970B731949415</a>

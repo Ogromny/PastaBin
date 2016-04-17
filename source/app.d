@@ -75,10 +75,15 @@ void decrypt(HTTPServerRequest req, HTTPServerResponse res)
 shared static this()
 {
 	URLRouter router = new URLRouter;
-	router.get("/", staticTemplate!"index.dt");
-	router.post("/encrypt", &encrypt);
-	router.get("/decrypt/:hash/:password/", &decrypt);
 	router.get("*", serveStaticFiles("public"));
+	router.get("/decrypt/:hash/:password/", &decrypt);
+	router.post("/encrypt", &encrypt);
+
+	// Static pages.
+	router.get("/", staticTemplate!"index.dt");
+	router.get("/about", staticTemplate!"about.dt");
+	router.get("/api", staticTemplate!"api.dt");
+	router.get("/contact", staticTemplate!"contact.dt");
 
 	HTTPServerSettings settings = new HTTPServerSettings;
 	settings.errorPageHandler   = toDelegate((HTTPServerRequest req, HTTPServerResponse res, HTTPServerErrorInfo error) => res.render!("error.dt", req, error));
