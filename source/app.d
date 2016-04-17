@@ -2,6 +2,7 @@
 import vibe.d;
 import vibe.db.mongo.mongo;
 import vibe.data.bson;
+import vibe.templ.parsertools;
 /* std */
 import std.digest.sha;
 /* extern .d */
@@ -78,8 +79,9 @@ void decrypt(HTTPServerRequest req, HTTPServerResponse res)
 	string title    = escape_escaped(paste["title"].toString());
 	string content  = decrypt_string(paste["content"].toString(), pass);
 
-	content = content[1 .. $-1];
-	content = escape_escaped(content);
+	title = sanitizeEscaping(title[1 .. $-1]);
+	content = sanitizeEscaping(content[1 .. $-1]);
+	//content = escape_escaped(content);
 
 	res.render!("decrypt.dt", req, title, content);
 }
