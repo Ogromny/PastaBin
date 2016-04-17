@@ -342,3 +342,7 @@ nav#menu ul li a:hover {
   margin-bottom: 0;
   list-style: square;
 }
+
+#about-content figure figcaption {
+  text-align: center;
+}
