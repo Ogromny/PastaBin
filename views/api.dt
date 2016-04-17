@@ -1,4 +1,4 @@
-extends layout-with-scroll
+extends layout
 
 block title
   title PastaBin - API Reference
