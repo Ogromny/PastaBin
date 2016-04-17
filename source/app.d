@@ -50,30 +50,26 @@ class WebInterface {
 	{
 		string title    = paste_title;
 		string password = toHexString(sha256Of(paste_password ~ secretKey));
-		       password = toLower(password);
 		string content  = encrypt_string(paste_content, password);
-
-		/* HASH */
-		auto sha1   = new SHA1Digest();
-		string hash = toHexString(sha1.digest(content ~ secretKey ~ password));
-		hash        = hash[1 .. 8];
-		hash        = toLower(hash);
 
 		/* BSON message */
 		Bson message = Bson.emptyObject;
-		message["hash"]    = hash;
+		message["_id"]     = BsonObjectID.generate();
 		message["title"]   = title;
 		message["content"] = content;
 
 		pastabin_message.insert(message);
 
-		redirect("/p/" ~ hash ~ "/" ~ password ~ "/");
+		string id = message["_id"].toString();
+		id        = id[1 .. $-1]; /* supprime les "" */
+
+		redirect("/p/" ~ id ~ "/" ~ password ~ "/");
 	}
 
-	@method(HTTPMethod.GET) @path("/p/:hash/:pass/")
-	void decrypt(string _hash, string _pass)
+	@method(HTTPMethod.GET) @path("/p/:id/:pass/")
+	void decrypt(string _id, string _pass)
 	{
-		Json paste  = pastabin_message.findOne(["hash": _hash]).toJson();
+		Json paste  = pastabin_message.findOne(["_id": _id]).toJson();
 
 		string title   = paste["title"].toString();
 		string content = decrypt_string(paste["content"].toString(), _pass);
