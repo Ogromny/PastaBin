@@ -225,7 +225,7 @@ nav#menu ul li a:hover {
 }
 #paste-infos .btn:hover,
 #paste-infos .btn:focus {
-  background-color: #2ECC71;
+  background-color: #27AE60;
 }
 
 #paste-infos .text {
@@ -235,6 +235,9 @@ nav#menu ul li a:hover {
   border-right: 2px solid #2980B9;
   color: #ffffff;
   font-size: 18px;
+}
+#paste-infos .text:only-child {
+  border: none;
 }
 
 /* Paste infos responsive. */
