@@ -18,7 +18,7 @@ html
             nav#menu
               ul
                 li
-                  a(href="/about") How it works?
+                  a(href="/about") How does it works?
                 li
                   a(href="/api") API
                 li
