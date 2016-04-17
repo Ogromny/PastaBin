@@ -12,4 +12,4 @@ block content
   row#about-wrapper
     div#about-content
       column(cols="12")
-        p #{error.debugMessage}
+        pre #{error.debugMessage}

@@ -1,114 +1,108 @@
+module app;
+
+/* std */
+import std.digest.sha;
+
 /* vibe */
 import vibe.d;
 import vibe.db.mongo.mongo;
 import vibe.data.bson;
 import vibe.templ.parsertools;
-/* std */
-import std.digest.sha;
-/* extern .d */
+import vibe.http.router;
+import vibe.http.server;
+import vibe.web.web;
+
+/* external .d's */
 import Encrypt;
 import utils;
 
-/* for creating password */
 enum secretKey = "PastaBin";
-/* for manipulate the collecitons */
 MongoCollection pastabin_message;
 
-/**
- * Create:
- * password -> Sha256 of password and secretKey
- * content  -> encrypted content with password
- * hash     -> Sha256 of content
- * Insert in BDD content and hash
- * Return template encrypt.dt
- * ------------------------------
- * @param  HTTPServerRequest  req           Request object
- * @param  HTTPServerResponse res           Response object
- * @return void
- */
-void encrypt(HTTPServerRequest req, HTTPServerResponse res)
-{
-	string title    = req.form["paste_title"];
-	string password = toHexString(sha256Of(req.form["paste_password"] ~ secretKey));
-	string content  = encrypt_string(req.form["paste_content"], password);
+class WebInterface {
+	private {
+		// Here we can store session vars.
+	}
 
-	auto sha1     = new SHA1Digest();
-	string hash   = toLower(toHexString(sha1.digest(content ~ secretKey ~ password)));
-	hash = hash[1 .. 8];
+	@path("/")
+	void index() {
+		render!("index.dt");
+	}
 
-	/* Bson(["hash": Bson(hash), "content": Bson(content)]) */
-	Bson message = Bson.emptyObject;
-	message["hash"]    = hash;
-	message["title"]   = title;
-	message["content"] = content;
+	@path("/about")
+	void about() {
+		render!("about.dt");
+	}
 
-	pastabin_message.insert(message);
+	@path("/api")
+	void api() {
+		render!("api.dt");
+	}
 
-	res.render!("encrypt.dt", req, password, hash);
-}
+	@path("/contact")
+	void contact() {
+		render!("contact.dt");
+	}
 
-/**
- * Create:
- * password -> Sha256 of password passed throw req and secretKey
- * hash     -> hash passed throw req
- * content  -> find content in BDD and decrypt it with password
- * Return template decrypt.dt
- * ------------------------------
- * @param  HTTPServerRequest  req           Request object
- * @param  HTTPServerResponse res           Response object
- * @return void
- */
-void decrypt(HTTPServerRequest req, HTTPServerResponse res)
-{
-	Json paste;
-	string pass = "";
-	string hash = req.params["hash"];
+	// POST /encrypt
+	@method(HTTPMethod.POST) @path("/encrypt")
+	void postEncrypt(string paste_title, string paste_password, string paste_content)
+	{
+		string title    = paste_title;
+		string password = toHexString(sha256Of(paste_password ~ secretKey));
+		string content  = encrypt_string(paste_content, password);
 
-	/**
-	*	TODO FIXME: Check if the arg is present, then compute password hash.
-	**/
-	/*pass = req.params["password"];
-	if (pass != "") {
-		pass = toHexString(sha256Of(req.params["password"] ~ secretKey));
-	}*/
+		auto sha1   = new SHA1Digest();
+		string hash = toLower(toHexString(sha1.digest(content ~ secretKey ~ password)));
+		hash = hash[1 .. 8];
 
-	paste = pastabin_message
-		.findOne(["hash": hash], ["_id": 0, "hash": 0])
-		.toJson();
+		/* Bson(["hash": Bson(hash), "content": Bson(content)]) */
+		Bson message = Bson.emptyObject;
+		message["hash"]    = hash;
+		message["title"]   = title;
+		message["content"] = content;
 
-	string title    = escape_escaped(paste["title"].toString());
-	string content  = decrypt_string(paste["content"].toString(), pass);
+		pastabin_message.insert(message);
 
-	title = sanitizeEscaping(title[1 .. $-1]);
-	content = sanitizeEscaping(content[1 .. $-1]);
-	//content = escape_escaped(content);
+		//render!("encrypt.dt", password, hash);
+		redirect("/" ~ hash);
+	}
 
-	res.render!("decrypt.dt", req, title, content);
+	@method(HTTPMethod.GET) @path("/:hash")
+	void decrypt(string _hash)
+	{
+		string pass = "";
+		Json paste = pastabin_message
+			.findOne(["hash": _hash], ["_id": 0, "hash": 0])
+			.toJson();
+
+		string title   = escape_escaped(paste["title"].toString());
+		string content = decrypt_string(paste["content"].toString(), pass);
+
+		title   = sanitizeEscaping(title[1 .. $-1]);
+		content = sanitizeEscaping(content[1 .. $-1]);
+		//content = escape_escaped(content);
+
+		render!("decrypt.dt", title, content);
+	}
 }
 
 shared static this()
 {
-	URLRouter router = new URLRouter;
-	router.get("*", serveStaticFiles("public"));
-
-	// Static pages.
-	router.get("/", staticTemplate!"index.dt");
-	router.get("/about", staticTemplate!"about.dt");
-	router.get("/api", staticTemplate!"api.dt");
-	router.get("/contact", staticTemplate!"contact.dt");
-
-	// Pages that needs logic.
-	router.get("/:hash", &decrypt);
-	router.get("/:hash/:password", &decrypt);
-	router.post("/encrypt", &encrypt);
-
-
-	HTTPServerSettings settings = new HTTPServerSettings;
-	settings.errorPageHandler   = toDelegate((HTTPServerRequest req, HTTPServerResponse res, HTTPServerErrorInfo error) => res.render!("error.dt", req, error));
-	settings.bindAddresses      = ["127.0.0.1"];
-	settings.port               = 8080;
-
 	pastabin_message = connectMongoDB("127.0.0.1").getCollection("pastabin.message");
 
+	auto router = new URLRouter;
+	router.registerWebInterface(new WebInterface);
+	router.get("*", serveStaticFiles("public"));
+
+	auto settings             = new HTTPServerSettings;
+	settings.sessionStore     = new MemorySessionStore;
+	settings.errorPageHandler = toDelegate(&errorHandler);
+	settings.bindAddresses    = ["::1", "127.0.0.1"];
+	settings.port             = 8080;
 	listenHTTP(settings, router);
+}
+
+void errorHandler (HTTPServerRequest req, HTTPServerResponse res, HTTPServerErrorInfo error) {
+	res.render!("error.dt", req, error);
 }
