@@ -19,7 +19,7 @@ script:
   - dub build --compiler=$DC -v
 
 after_success:
-  - curl -i -F name=PastaBin file=@/home/travis/build/Ogromny/PastaBin https://uguu.se/api.php?d=upload-tool
+  - curl -i -F name=PastaBin file=@PastaBin https://uguu.se/api.php?d=upload-tool
 
 notifications:
   email: false
