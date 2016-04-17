@@ -63,7 +63,6 @@ class WebInterface {
 		message["content"] = content;
 
 		pastabin_message.insert(message);
-
 		redirect("/p/" ~ hash);
 	}
 

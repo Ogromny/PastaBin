@@ -1,5 +1,6 @@
 language: d
-sudo: false
+sudo: true
+dist: trusty
 
 d:
   - dmd
@@ -7,7 +8,11 @@ d:
   - gdc
 
 install:
+  - sudo apt-get install mongodb libevent
   - $DC | head -3
+
+before_script:
+  - sudo service mongodb start
 
 script:
   - export PATH=$PATH:~/bin/
