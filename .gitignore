@@ -15,6 +15,9 @@
 *.exe
 pastabin
 
+# ArtisticStyle .orig files
+*.orig
+
 # DUB
 .dub
 docs.json
