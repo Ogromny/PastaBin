@@ -69,7 +69,7 @@ class WebInterface {
 	@method(HTTPMethod.GET) @path("/p/:id/:pass/")
 	void decrypt(string _id, string _pass)
 	{
-		Json paste  = pastabin_message.findOne(["_id": _id]).toJson();
+		Json paste  = pastabin_message.findOne(["_id": BsonObjectID.fromString(_id)]).toJson();
 
 		string title   = paste["title"].toString();
 		string content = decrypt_string(paste["content"].toString(), _pass);
