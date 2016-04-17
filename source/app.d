@@ -45,7 +45,6 @@ class WebInterface {
 		render!("contact.dt");
 	}
 
-	// POST /encrypt
 	@method(HTTPMethod.POST) @path("/encrypt")
 	void postEncrypt(string paste_title, string paste_content, string paste_password = "")
 	{
@@ -53,33 +52,36 @@ class WebInterface {
 		string password = toHexString(sha256Of(paste_password ~ secretKey));
 		string content  = encrypt_string(paste_content, password);
 
+		/* HASH */
 		auto sha1   = new SHA1Digest();
 		string hash = toLower(toHexString(sha1.digest(content ~ secretKey ~ password)));
-		hash = hash[1 .. 8];
+		hash        = hash[1 .. 8];
 
+		/* BSON message */
 		Bson message = Bson.emptyObject;
 		message["hash"]    = hash;
 		message["title"]   = title;
 		message["content"] = content;
 
 		pastabin_message.insert(message);
-		redirect("/p/" ~ hash);
+
+		redirect("/p/" ~ hash ~ "/" ~ password ~ "/");
 	}
 
-	@method(HTTPMethod.GET) @path("/p/:hash")
-	void decrypt(string _hash)
+	@method(HTTPMethod.GET) @path("/p/:hash/:pass/")
+	void decrypt(string _hash, string _pass)
 	{
-		string pass = "";
 		Json paste  = pastabin_message
 			.findOne(["hash": _hash], ["_id": 0, "hash": 0])
 			.toJson();
 
 		string title   = paste["title"].toString();
-		string content = decrypt_string(paste["content"].toString(), pass);
+		string content = decrypt_string(paste["content"].toString(), _pass);
 
 		import std.ascii : newline;
 		title   = title[1 .. $-1];
 		content = content[1 .. $-1].replaceAll(r"\\r\\n".regex, newline);
+		content = content.replaceAll(r"\\(.)".regex, "$1");
 
 		render!("decrypt.dt", title, content);
 	}

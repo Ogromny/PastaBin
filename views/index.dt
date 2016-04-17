@@ -10,7 +10,7 @@ block content
         column(cols="8")
           input.input(type="text", name="paste_title", placeholder="Title of the paste...", required, tabindex="1")
         column(cols="3")
-          input.input(type="password", name="paste_password", placeholder="Password (optional)", tabindex="2")
+          input.input(type="password", name="paste_password", placeholder="Password", required, tabindex="2")
         column(cols="1")
           input.btn(type="submit", value="Paste!", tabindex="3")
     
