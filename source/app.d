@@ -88,15 +88,18 @@ shared static this()
 {
 	URLRouter router = new URLRouter;
 	router.get("*", serveStaticFiles("public"));
-	router.get("/:hash", &decrypt);
-	router.get("/:hash/:password", &decrypt);
-	router.post("/encrypt", &encrypt);
 
 	// Static pages.
 	router.get("/", staticTemplate!"index.dt");
 	router.get("/about", staticTemplate!"about.dt");
 	router.get("/api", staticTemplate!"api.dt");
 	router.get("/contact", staticTemplate!"contact.dt");
+
+	// Pages that needs logic.
+	router.get("/:hash", &decrypt);
+	router.get("/:hash/:password", &decrypt);
+	router.post("/encrypt", &encrypt);
+
 
 	HTTPServerSettings settings = new HTTPServerSettings;
 	settings.errorPageHandler   = toDelegate((HTTPServerRequest req, HTTPServerResponse res, HTTPServerErrorInfo error) => res.render!("error.dt", req, error));
