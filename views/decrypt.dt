@@ -12,10 +12,8 @@ block content
         column(cols="1")
           input.btn(type="submit", value="Fork!")
     
-    row    
-      section#paste-content
-        textarea#size-wrapper(name="paste_content", readonly) #{content}
-
+    row#paste-content
+      textarea#size-wrapper(name="paste_content", readonly) #{content}
 
         //- select(class="select", name="message_expiration")
         //-   option(value="10 Minutes") 10 Minutes
