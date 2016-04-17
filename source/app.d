@@ -57,8 +57,6 @@ class WebInterface {
 		string hash = toLower(toHexString(sha1.digest(content ~ secretKey ~ password)));
 		hash = hash[1 .. 8];
 
-		//content = replaceAll(content, r"\r\n".regex, "\n");
-
 		Bson message = Bson.emptyObject;
 		message["hash"]    = hash;
 		message["title"]   = title;
@@ -66,7 +64,6 @@ class WebInterface {
 
 		pastabin_message.insert(message);
 
-		//render!("encrypt.dt", password, hash);
 		redirect("/p/" ~ hash);
 	}
 
