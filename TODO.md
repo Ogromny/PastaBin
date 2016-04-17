@@ -1,12 +1,15 @@
 # TODO
-## _V0.1_
-- [x] Que ça soit fonctionnel
+## v0.1.0
+* [x] Having a working website.
 
-## _V0.2_
-- [ ] Ajouter un "About me"
+## v0.2.0
+* [x] Add misc pages such as `about`, `api`, `contact`
 
-## _V0.3_
-- [ ] Ajouter une encryption
+## v0.3.0
+* [ ] Add, review and hard-test encryption algorithm.  
+* [ ] Zero-knoweldge encryption would be a must.
 
-## _V0.4_
-- [ ] Compresser les routes
+## v0.4.0
+* [ ] Support for syntax highlighting, done server-side. No JS needed.
+* [ ] Support for expiration date (10 min, 1 day, 1 week, 1 month, 6 months, 1 year, indefinitly).
+* [ ] Support for link shortening (ie. `pasta.pw/id`)
