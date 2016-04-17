@@ -12,6 +12,7 @@ d:
 cache:
   directories:
     - /home/travis/.dub/
+    - /home/travis/build/Ogromny/PastaBin/.dub/build/
 
 install:
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then bash dist/install_linux_deps.sh; fi
