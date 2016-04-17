@@ -11,12 +11,12 @@ block content
       column(cols="1")
         a.btn(href="https://github.com/Ogromny/PastaBin") GitHub
   
-  row#size-wrapper
+  row#about-wrapper
     div#about-content
       column(cols="2")
         figure
           a(href="https://github.com/Ogromny/PastaBin")
-            img(src="#{req.rootDir}images/Octocat.png")
+            img(src="#{req.rootDir}images/Octocat.png", width="150", height="150")
           figcaption We strongly believe in the power of Open-Source!
       column(cols="10")
         h2 Introducing PastaBin, a secure way to share

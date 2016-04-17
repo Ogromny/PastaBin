@@ -61,6 +61,13 @@ a:hover {
   margin: 0 auto;
   display: flex;
 }
+#about-wrapper {
+  max-width: 960px;
+  width: 960px;
+  min-height: 100%;
+  margin: 0 auto;
+  display: flex;
+}
 
 form.forms {
   height: 100%;
@@ -73,6 +80,11 @@ form.forms {
     width: 100%;
     min-height: 100%;
     display: block;
+  }
+  #about-wrapper {
+    max-width: 100%;
+    width: 100%;
+    min-height: 100%;
   }
 }
 
@@ -228,6 +240,18 @@ nav#menu ul li a:hover {
   background-color: #27AE60;
 }
 
+#paste-infos .input {
+  background-color: #3498DB;
+  border-radius: 0;
+  border: none;
+  border-right: 2px solid #2980B9;
+  color: #ffffff;
+  font-size: 18px;
+}
+#paste-infos .input:only-child {
+  border: none;
+}
+
 #paste-infos .text {
   background-color: #3498DB;
   border-radius: 0;
@@ -249,7 +273,7 @@ nav#menu ul li a:hover {
 		-ms-flex-order: 2;
 		order: 2;
   }
-  #paste-infos .text {
+  #paste-infos .input {
     border: none;
     border-bottom: 2px solid #2980B9;
   }
@@ -258,6 +282,13 @@ nav#menu ul li a:hover {
   }
   #paste-infos .btn a {
     display: block;
+  }
+  #paste-infos .text {
+    height: 40px;
+    width: 100%;
+    display: inline-block;
+
+    text-align: center;
   }
 }
 
@@ -351,4 +382,19 @@ nav#menu ul li a:hover {
 
 #about-content figure figcaption {
   text-align: center;
+}
+
+/* About page responsive. */
+@media (max-width:768px) {
+  #about-content {
+    display: block;
+  }
+  #about-content figure img {
+    display: block;
+    margin: 0 auto;
+  }
+  #about-content p,
+  #about-content a {
+    word-wrap: break-word;
+  }
 }

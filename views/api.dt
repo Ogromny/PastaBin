@@ -9,7 +9,7 @@ block content
       column(cols="12")
         h1.text Application Programming Interface
 
-  row#size-wrapper
+  row#about-wrapper
     div#about-content
       column(cols="12")
         h2 Introducing the PastaBin API
