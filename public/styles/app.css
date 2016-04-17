@@ -118,6 +118,12 @@ form.forms {
   -webkit-order: 0;
   -ms-flex-order: 0;
   order: 0;
+
+	-webkit-user-select: none;
+		 -moz-user-select: none;
+			-ms-user-select: none;
+			 -o-user-select: none;
+					user-select: none;
 }
 
 #header .logo {
@@ -145,12 +151,6 @@ form.forms {
 		-ms-flex-order: 0;
 		order: 0;
     position: relative;
-
-    -webkit-user-select: none;
-       -moz-user-select: none;
-        -ms-user-select: none;
-         -o-user-select: none;
-            user-select: none;
   }
   #header .logo {
     margin: 10px auto 0;
