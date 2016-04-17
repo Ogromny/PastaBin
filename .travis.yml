@@ -2,6 +2,7 @@ language: d
 sudo: true
 dist: trusty
 os:
+  - linux
   - osx
 
 d:
