@@ -11,7 +11,8 @@ d:
   - gdc
 
 install:
-  - sudo apt-get install  mongodb libevent-2.0-5 libevent-dev -y
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then bash dist/install_linux_deps.sh; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then bash dist/install_osx_deps.sh; fi
   - $DC | head -3
 
 script:
