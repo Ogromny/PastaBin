@@ -1,4 +1,6 @@
 # Introducing PastaBin, a secure way to share
+[![PastaBin TravisCI](https://img.shields.io/travis/Ogromny/PastaBin/master.svg?style=flat)](https://travis-ci.org/Ogromny/PastaBin)
+
 PastaBin aims to be a secure, modern and fully-featured Pastebin replacement.  
 It has been designed with the following things in mind: Security, Simplicity and Elegance.
 
