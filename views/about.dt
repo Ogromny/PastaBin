@@ -13,11 +13,11 @@ block content
   
   row#size-wrapper
     div#about-content
-      column(cols="4")
+      column(cols="2")
         figure
           img(src="#{req.rootDir}images/Octocat.png")
           figcaption We strongly believe in the power of Open-Source!
-      column(cols="8")
+      column(cols="10")
         h2 Introducing PastaBin, a secure way to share
         p.br PastaBin aims to be a secure, modern and fully-featured Pastebin replacement.
         p It has been designed with the following things in mind: Security, Simplicity and Elegance.
