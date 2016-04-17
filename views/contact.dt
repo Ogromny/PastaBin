@@ -6,9 +6,9 @@ block title
 block content
   row#paste-infos
     div#size-wrapper
-      column(cols="8")
+      column(cols="10")
         h1.text Contact us
-      column(cols="4")
+      column(cols="2")
         a.btn(href="mailto:contact@pastabin.pw") Via email
 
   row#about-wrapper
