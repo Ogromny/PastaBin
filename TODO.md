@@ -5,6 +5,7 @@
 ## v0.2.0
 * [x] Do a nice design and integrate it.
 * [x] Add misc pages such as `about`, `api`, `contact`.
+* [x] Rewrite `app.d` using vibe.WebInterface.
 
 ## v0.3.0
 * [ ] Add, review and hard-test encryption algorithm.  
