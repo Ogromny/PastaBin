@@ -29,17 +29,17 @@ class WebInterface {
 		render!("index.dt");
 	}
 
-	@path("/about")
+	@method(HTTPMethod.GET) @path("/about")
 	void about() {
 		render!("about.dt");
 	}
 
-	@path("/api")
+	@method(HTTPMethod.GET) @path("/api")
 	void api() {
 		render!("api.dt");
 	}
 
-	@path("/contact")
+	@method(HTTPMethod.GET) @path("/contact")
 	void contact() {
 		render!("contact.dt");
 	}
@@ -65,10 +65,10 @@ class WebInterface {
 		pastabin_message.insert(message);
 
 		//render!("encrypt.dt", password, hash);
-		redirect("/" ~ hash);
+		redirect("/p/" ~ hash);
 	}
 
-	@method(HTTPMethod.GET) @path("/:hash")
+	@method(HTTPMethod.GET) @path("/p/:hash")
 	void decrypt(string _hash)
 	{
 		string pass = "";
