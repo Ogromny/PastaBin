@@ -4,8 +4,8 @@ html
     block title
     meta(charset="utf-8")
     meta(name="viewport", content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0")
-    link(rel="stylesheet", href="#{req.rootDir}styles/kube.css")
-    link(rel="stylesheet", href="#{req.rootDir}styles/app.css")
+    link(rel="stylesheet", href="/styles/kube.css")
+    link(rel="stylesheet", href="/styles/app.css")
         
   body.no-overflow
     div#wrapper
