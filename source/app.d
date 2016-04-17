@@ -50,6 +50,7 @@ class WebInterface {
 	{
 		string title    = paste_title;
 		string password = toHexString(sha256Of(paste_password ~ secretKey));
+		       password = toLower(password);
 		string content  = encrypt_string(paste_content, password);
 
 		/* HASH */
