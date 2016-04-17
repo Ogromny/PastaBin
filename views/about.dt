@@ -6,9 +6,9 @@ block title
 block content
   row#paste-infos
     div#size-wrapper
-      column(cols="11")
+      column(cols="10")
         h1.text About PastaBin
-      column(cols="1")
+      column(cols="2")
         a.btn(href="https://github.com/Ogromny/PastaBin") GitHub
   
   row#about-wrapper
