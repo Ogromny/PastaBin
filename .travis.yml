@@ -8,7 +8,6 @@ os:
 d:
   - dmd
   - ldc
-  - gdc
 
 install:
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then bash dist/install_linux_deps.sh; fi
