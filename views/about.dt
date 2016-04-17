@@ -25,8 +25,14 @@ block content
         
         p PastaBin is free software. That's <a href="https://www.gnu.org/philosophy/free-sw.html">free as in freedom</a>, as well as in price. This means PastaBin is yours — to use, modify, and share — because PastaBin is developed by and for the users.
         
+        h2 How does it works?
+        p.br When you send a paste, PastaBin encrypt it using the password you given. Then it store the paste id and the <b>encrypted</b> text of your paste. Their is no password stored in database. 
+        p.br When you try to decrypt a paste, PastaBin will check if it's able to it and return you the decrypted text or an error message if the password wasn't able to decrypt. 
+        p We could have called this process encryption-over-the-fly, but it would sounds too much amazing.
+        
         h2 Technologies behind PastaBin
         p We doesn't want to make another PasteBin PHP clone, so we decided to do it in <a href="https://dlang.org">D</a>. You would probably ask us why we choosed <b>D</b> to code this webapp and we would answer you that's it was a nice programming language, running pretty fast, handling MongoDB very well, permiting us to do rapid prototypes and even because that's a cool language!
         
-        p Of course, we doesn't only use D but also ; MongoDB for encrypted data storage, Vibe.D as a webserver (that's what permited you to read this page) and OpenSSL for doing encryption things!
+        p Of course, we doesn't only use D but also ; MongoDB for encrypted data storage, Vibe.D as a webserver and OpenSSL for doing encryption things!
+        
         
