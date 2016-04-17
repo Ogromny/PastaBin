@@ -8,14 +8,14 @@ block content
     row#paste-infos
       div#size-wrapper
         column(cols="8")
-          input.text(type="text", name="paste_title", placeholder="Title of the paste...", tabindex="1")
+          input.text(type="text", name="paste_title", placeholder="Title of the paste...", required, tabindex="1")
         column(cols="3")
           input.text(type="password", name="paste_password", placeholder="Password (optional)", tabindex="2")
         column(cols="1")
           input.btn(type="submit", value="Paste!", tabindex="3")
     
     row#paste-content
-      textarea#size-wrapper(name="paste_content", tabindex="0")
+      textarea#size-wrapper(name="paste_content", tabindex="0", required, autofocus)
 
       //- TODO: Design this to follow the current material UI.
         //- select(class="select", name="paste_expiration")

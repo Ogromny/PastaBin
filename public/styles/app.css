@@ -1,21 +1,32 @@
+*:hover {
+  transition-property: background-color;
+	transition-duration: .5s;
+}
+
+*, *:before, *:after
+{
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+}
+
 body {
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
   background-color: #34495E;
   color: #f3f4f4;
   overflow: hidden;
 }
 
+/**
+*  Wrappers.
+**/
 #wrapper {
-  display: -webkit-box;
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: -webkit-flex;
-  display: flex;
-  flex-wrap: wrap;
-  flex: 1;
-
   -webkit-align-items: center;
   -ms-align-items: center;
   align-items: center;
@@ -28,6 +39,9 @@ body {
 	-webkit-flex-flow: column;
 	-ms-flex-direction: column;
 	flex-flow: column;
+
+  width: 100%;
+  height: 100%;
 }
 
 #size-wrapper {
@@ -37,12 +51,17 @@ body {
   display: flex;
 }
 
+form.forms {
+  height: 100%;
+  max-height: 100%;
+}
+
 @media (max-width:768px) {
   #size-wrapper {
     max-width: 100%;
     width: 100%;
     display: block;
-  }text
+  }
 }
 
 /**
@@ -69,6 +88,14 @@ body {
   -webkit-order: 0;
   -ms-flex-order: 0;
   order: 0;
+
+  position: -webkit-sticky;
+  position: -moz-sticky;
+  position: -o-sticky;
+  position: -ms-sticky;
+  position: sticky;
+  top: 0;
+  z-index: 1;
 }
 
 #header .logo {
@@ -95,10 +122,11 @@ body {
 		-webkit-order: 0;
 		-ms-flex-order: 0;
 		order: 0;
+    position: relative;
   }
   #header .logo {
     margin: 10px auto 0;
-    font-size: 24px;
+    font-size: 30px;
     line-height: 30px;
   }
   #header .logo a {
@@ -148,7 +176,7 @@ nav#menu ul li a:hover {
 }
 
 /**
-*  Paste infos.
+*  Paste infos.  position: relative;
 **/
 #paste-infos {
   display: -webkit-box;
@@ -165,6 +193,14 @@ nav#menu ul li a:hover {
 	-webkit-order: 1;
 	-ms-flex-order: 1;
 	order: 1;
+
+  position: -webkit-sticky;
+  position: -moz-sticky;
+  position: -o-sticky;
+  position: -ms-sticky;
+  position: sticky;
+  top: 62px;
+  z-index: 1;
 
   background-color: #2980B9;
 }
@@ -185,31 +221,23 @@ nav#menu ul li a:hover {
   padding: 0;
 
   border-radius: 0;
-  border-left: 1px solid #2980B9;
-  border-right: 1px solid #2980B9;
-
   background-color: #3498DB;
   color: #ffffff;
   font-size: 18px;
 }
-#paste-infos .btn:hover {
+#paste-infos .btn:hover,
+#paste-infos .btn:focus {
   background-color: #2ECC71;
+  border: none;
 }
 
 #paste-infos .text {
   background-color: #3498DB;
   border-radius: 0;
   border: none;
-  border-left: 1px solid #2980B9;
-  border-right: 1px solid #2980B9;
+  border-right: 2px solid #2980B9;
   color: #ffffff;
   font-size: 18px;
-}
-#paste-infos .text:hover,
-#paste-infos .text:focus {
-
-  border-radius: 0;
-  color: #ffffff;
 }
 
 /* Paste infos responsive. */
@@ -220,6 +248,10 @@ nav#menu ul li a:hover {
 		-webkit-order: 2;
 		-ms-flex-order: 2;
 		order: 2;
+  }
+  #paste-infos .text {
+    border: none;
+    border-bottom: 2px solid #2980B9;
   }
 }
 
@@ -241,22 +273,29 @@ nav#menu ul li a:hover {
 	order: 2;
 }
 
-#paste-content,
-#paste-content textarea {
+#paste-content {
   width: 100%;
-  height: 100%;
+  height: calc(100% - 102px); /* #header + #paste-infos sizes. */
+
+  display: flex;
+  flex-direction: row;
+
+  justify-content: center; /* align items in Main Axis */
+  align-items: center; /* align items in Cross Axis */
+  align-content: stretch; /* Extra space in Cross Axis */
 }
 
 #paste-content textarea {
+  height: 100%;
+  width: 100%;
+
   padding: 20px;
   margin: 0 auto;
-  min-height: 100%;
-  width: 100vw;
-  height: 100vh;
 
   background-color: #2C3E50;
   border: none;
   color: #f3f4f4;
+  resize: none;
 }
 
 /* Paste content responsive. */

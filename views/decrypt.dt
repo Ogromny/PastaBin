@@ -14,7 +14,7 @@ block content
     
     row    
       section#paste-content
-        textarea#size-wrapper(name="paste_content") #{content}
+        textarea#size-wrapper(name="paste_content", readonly) #{content}
 
 
         //- select(class="select", name="message_expiration")
