@@ -11,9 +11,6 @@ install:
   - sudo apt-get install  mongodb libevent-2.0-5 libevent-dev -y
   - $DC | head -3
 
-before_script:
-  - sudo service mongodb start
-
 script:
   - export PATH=$PATH:~/bin/
   - dub --compiler=$DC -v
