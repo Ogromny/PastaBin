@@ -9,9 +9,11 @@ block content
       column(cols="8")
         h1.text Contact us
       column(cols="2")
-        a.btn(href="mailto:webmaster@pastabin.ru") Via email
-      column(cols="2")
-        a.btn(href="tox:DFB4958A86122ACF81BB852DBC767DB8A3A7281A8EDBC83121B30C294E29586970B731949415") Via Tox
+        a.btn(href="mailto:contact@pastabin.pw") Via email
+      column(cols="1")
+        a.btn(href="tox:10EC72CA34FB138A6246B48DA8A616D008400F95D61201EB3DD70502601C682098CA00A65543") Ogro
+      column(cols="1")
+        a.btn(href="tox:DFB4958A86122ACF81BB852DBC767DB8A3A7281A8EDBC83121B30C294E29586970B731949415") Skyzoh
 
   row#about-wrapper
     div#about-content
