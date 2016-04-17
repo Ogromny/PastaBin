@@ -17,8 +17,7 @@ block content
     div#about-content
       column(cols="12")
         h2 Get in touch with us
-        p.br You can report use bugs, abuse, or anything else using our mail address or via our respective ToxIDs.
-        p The ToxID listed ontop is the one of the developer that's online pretty much everytime, but you can also contact the others developers without any fear.
+        p You can report use bugs, abuse, or anything else using our mail address or via our respective ToxIDs. The ToxID listed ontop is the one of the developer that's online pretty much everytime, but you can also contact the others developers without any fear.
         
         p Here is a list of the developers that wanted their ToxID to be listed on this page:
         ul

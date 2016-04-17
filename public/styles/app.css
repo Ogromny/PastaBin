@@ -253,6 +253,12 @@ nav#menu ul li a:hover {
     border: none;
     border-bottom: 2px solid #2980B9;
   }
+  #paste-infos .btn {
+    border: none;
+  }
+  #paste-infos .btn a {
+    display: block;
+  }
 }
 
 /**
