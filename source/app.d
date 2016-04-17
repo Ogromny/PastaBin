@@ -25,7 +25,7 @@ class WebInterface {
 		// Here we can store session vars.
 	}
 
-	@path("/")
+	@method(HTTPMethod.GET) @path("/")
 	void index() {
 		render!("index.dt");
 	}
@@ -55,8 +55,9 @@ class WebInterface {
 
 		/* HASH */
 		auto sha1   = new SHA1Digest();
-		string hash = toLower(toHexString(sha1.digest(content ~ secretKey ~ password)));
+		string hash = toHexString(sha1.digest(content ~ secretKey ~ password));
 		hash        = hash[1 .. 8];
+		hash        = toLower(hash);
 
 		/* BSON message */
 		Bson message = Bson.emptyObject;
@@ -72,16 +73,14 @@ class WebInterface {
 	@method(HTTPMethod.GET) @path("/p/:hash/:pass/")
 	void decrypt(string _hash, string _pass)
 	{
-		Json paste  = pastabin_message
-			.findOne(["hash": _hash], ["_id": 0, "hash": 0])
-			.toJson();
+		Json paste  = pastabin_message.findOne(["hash": _hash]).toJson();
 
 		string title   = paste["title"].toString();
 		string content = decrypt_string(paste["content"].toString(), _pass);
 
-		import std.ascii : newline;
 		title   = title[1 .. $-1];
-		content = content[1 .. $-1].replaceAll(r"\\r\\n".regex, newline);
+		content = content[1 .. $-1];
+		content = content.replaceAll(r"\\r\\n".regex, std.ascii.newline);
 		content = content.replaceAll(r"\\(.)".regex, "$1");
 
 		render!("decrypt.dt", title, content);
