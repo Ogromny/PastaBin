@@ -1,6 +1,6 @@
 *:hover {
   transition-property: background-color;
-	transition-duration: .5s;
+	transition-duration: .2s;
 }
 
 *, *:before, *:after
@@ -237,7 +237,7 @@ nav#menu ul li a:hover {
 }
 #paste-infos .btn:hover,
 #paste-infos .btn:focus {
-  background-color: #27AE60;
+  background-color: #16A085;
 }
 
 #paste-infos .input {
