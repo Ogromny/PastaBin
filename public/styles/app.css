@@ -1,4 +1,6 @@
-* {
+input,
+button,
+a {
   -webkit-transition: all .2s ease-in-out;
      -moz-transition: all .2s ease-in-out;
       -ms-transition: all .2s ease-in-out;
@@ -142,6 +144,12 @@ form.forms {
 		-ms-flex-order: 0;
 		order: 0;
     position: relative;
+
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+         -o-user-select: none;
+            user-select: none;
   }
   #header .logo {
     margin: 10px auto 0;
@@ -181,6 +189,12 @@ nav#menu ul li a {
   color: #f3f4f4;
   font-weight: bold;
   text-decoration: none;
+
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+       -o-user-select: none;
+          user-select: none;
 }
 nav#menu ul li a:hover {
   background-color: #16A085;
@@ -237,6 +251,12 @@ nav#menu ul li a:hover {
   background-color: #27AE60;
   color: #ffffff;
   font-size: 18px;
+
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+       -o-user-select: none;
+          user-select: none;
 }
 #paste-infos .btn:hover,
 #paste-infos .btn:focus {
@@ -336,6 +356,7 @@ nav#menu ul li a:hover {
   border: none;
   color: #f3f4f4;
   resize: none;
+  font-family: monospace;
 }
 
 /* Paste content responsive. */
@@ -385,6 +406,13 @@ nav#menu ul li a:hover {
 
 #about-content figure figcaption {
   text-align: center;
+}
+#about-content figure img {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+       -o-user-select: none;
+          user-select: none;
 }
 
 /* About page responsive. */

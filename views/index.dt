@@ -15,7 +15,7 @@ block content
           input.btn(type="submit", value="Paste!", tabindex="3")
     
     row#paste-content
-      textarea#size-wrapper(name="paste_content", tabindex="0", required, autofocus)
+      textarea#size-wrapper(name="paste_content", placeholder="Put your awesome text here...", tabindex="0", required, autofocus)
 
       //- TODO: Design this to follow the current material UI.
         //- select(class="select", name="paste_expiration")
