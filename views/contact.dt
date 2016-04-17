@@ -24,11 +24,18 @@ block content
           li <b>Ogromny</b>: <a href="tox:10EC72CA34FB138A6246B48DA8A616D008400F95D61201EB3DD70502601C682098CA00A65543">10EC72CA34FB138A6246B48DA8A616D008400F95D61201EB3DD70502601C682098CA00A65543</a>
           li <b>SkyzohKey</b>: <a href="tox:DFB4958A86122ACF81BB852DBC767DB8A3A7281A8EDBC83121B30C294E29586970B731949415">DFB4958A86122ACF81BB852DBC767DB8A3A7281A8EDBC83121B30C294E29586970B731949415</a>
 
-        h2 Report an issue
-        p If you think you have found an issue and you have 30 seconds to report it to us, you're a super-hero! In order to report a bug, simply go to our <a href="https://github.com/Ogromny/PastaBin">issue tracker</a>. You can <b>create a new issue</b> or comment on an issue already opened.
+        row
+          column(cols="2")
+            figure
+              a(href="https://github.com/Ogromny/PastaBin")
+                img(src="#{req.rootDir}images/Octocat-hero.png", width="150", height="150")
+              figcaption Report an issue an become a super-hero!
+          column(cols="10")
+            h2 Report an issue
+            p If you think you have found an issue and you have 30 seconds to report it to us, you're a super-hero! In order to report a bug, simply go to our <a href="https://github.com/Ogromny/PastaBin">issue tracker</a>. You can <b>create a new issue</b> or comment on an issue already opened.
 
-        h3 Rules when reporting an issue
-        ul
-          li Be adventurous. Check if a similar issue already have been reported before creating yours.
-          li Be polite. Politeness is always appreciated, rude peoples are most of the time ignored.
-          li Be patient. Once you're issue is reported, we have to find what is causing it, fixing it, testing the fix and push.
+            h3 Rules when reporting an issue
+            ul
+              li Be adventurous. Check if a similar issue already have been reported before creating yours.
+              li Be polite. Politeness is always appreciated, rude peoples are most of the time ignored.
+              li Be patient. Once you're issue is reported, we have to find what is causing it, fixing it, testing the fix and push.
