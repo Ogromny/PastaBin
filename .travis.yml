@@ -1,6 +1,8 @@
 language: d
 sudo: true
 dist: trusty
+os:
+  - osx
 
 d:
   - dmd
