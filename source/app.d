@@ -13,7 +13,7 @@ import vibe.http.server;
 import vibe.web.web;
 
 /* external .d's */
-import Encrypt;
+import encrypt;
 import utils;
 
 enum secretKey = "PastaBin";
@@ -46,7 +46,7 @@ class WebInterface {
 
 	// POST /encrypt
 	@method(HTTPMethod.POST) @path("/encrypt")
-	void postEncrypt(string paste_title, string paste_password, string paste_content)
+	void postEncrypt(string paste_title, string paste_content, string paste_password = "")
 	{
 		string title    = paste_title;
 		string password = toHexString(sha256Of(paste_password ~ secretKey));
