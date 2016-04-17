@@ -1,4 +1,4 @@
-module Encrypt;
+module encrypt;
 
 /*
     Je vais utiliser AES grace à OpenSSL

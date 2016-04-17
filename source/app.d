@@ -76,7 +76,7 @@ class WebInterface {
 			.findOne(["hash": _hash], ["_id": 0, "hash": 0])
 			.toJson();
 
-		string title   = escape_escaped(paste["title"].toString());
+		string title   = paste["title"].toString();
 		string content = decrypt_string(paste["content"].toString(), pass);
 
 		title   = sanitizeEscaping(title[1 .. $-1]);
