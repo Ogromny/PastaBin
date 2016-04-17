@@ -17,3 +17,6 @@ before_script:
 script:
   - export PATH=$PATH:~/bin/
   - dub --compiler=$DC -v
+
+notifications:
+  email: false
