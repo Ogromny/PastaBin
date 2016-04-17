@@ -71,7 +71,7 @@ class WebInterface {
 	void decrypt(string _hash)
 	{
 		string pass = "";
-		Json paste = pastabin_message
+		Json paste  = pastabin_message
 			.findOne(["hash": _hash], ["_id": 0, "hash": 0])
 			.toJson();
 
