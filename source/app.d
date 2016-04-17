@@ -30,7 +30,10 @@ void encrypt(HTTPServerRequest req, HTTPServerResponse res)
 	string title    = req.form["paste_title"];
 	string password = toHexString(sha256Of(req.form["paste_password"] ~ secretKey));
 	string content  = encrypt_string(req.form["paste_content"], password);
-	string hash     = toHexString(sha256Of(content));
+
+	auto sha1     = new SHA1Digest();
+	string hash   = toLower(toHexString(sha1.digest(content ~ secretKey ~ password)));
+	hash = hash[1 .. 8];
 
 	/* Bson(["hash": Bson(hash), "content": Bson(content)]) */
 	Bson message = Bson.emptyObject;
@@ -56,15 +59,24 @@ void encrypt(HTTPServerRequest req, HTTPServerResponse res)
  */
 void decrypt(HTTPServerRequest req, HTTPServerResponse res)
 {
-	string password = toHexString(sha256Of(req.params["password"] ~ secretKey));
-	string hash     = req.params["hash"];
+	Json paste;
+	string pass = "";
+	string hash = req.params["hash"];
 
-	Json paste = pastabin_message
+	/**
+	*	TODO FIXME: Check if the arg is present, then compute password hash.
+	**/
+	/*pass = req.params["password"];
+	if (pass != "") {
+		pass = toHexString(sha256Of(req.params["password"] ~ secretKey));
+	}*/
+
+	paste = pastabin_message
 		.findOne(["hash": hash], ["_id": 0, "hash": 0])
 		.toJson();
 
 	string title    = escape_escaped(paste["title"].toString());
-	string content  = decrypt_string(paste["content"].toString(), password);
+	string content  = decrypt_string(paste["content"].toString(), pass);
 
 	content = content[1 .. $-1];
 	content = escape_escaped(content);
@@ -76,7 +88,8 @@ shared static this()
 {
 	URLRouter router = new URLRouter;
 	router.get("*", serveStaticFiles("public"));
-	router.get("/decrypt/:hash/:password/", &decrypt);
+	router.get("/:hash", &decrypt);
+	router.get("/:hash/:password", &decrypt);
 	router.post("/encrypt", &encrypt);
 
 	// Static pages.
