@@ -11,4 +11,4 @@ install:
 
 script:
   - export PATH=$PATH:~/bin/
-  - dub --build=unittest --config=unittest --compiler=$DC -v
+  - dub --compiler=$DC -v
