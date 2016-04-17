@@ -18,8 +18,5 @@ script:
   - export PATH=$PATH:~/bin/
   - dub build --compiler=$DC -v
 
-after_success:
-  - curl -T PastaBin ftp://81.64.83.32 --user webuser:b7019638
-
 notifications:
   email: false
