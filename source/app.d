@@ -1,6 +1,7 @@
 module app;
 
 /* std */
+import std.regex;
 import std.digest.sha;
 
 /* vibe */
@@ -56,7 +57,8 @@ class WebInterface {
 		string hash = toLower(toHexString(sha1.digest(content ~ secretKey ~ password)));
 		hash = hash[1 .. 8];
 
-		/* Bson(["hash": Bson(hash), "content": Bson(content)]) */
+		//content = replaceAll(content, r"\r\n".regex, "\n");
+
 		Bson message = Bson.emptyObject;
 		message["hash"]    = hash;
 		message["title"]   = title;
@@ -79,9 +81,9 @@ class WebInterface {
 		string title   = paste["title"].toString();
 		string content = decrypt_string(paste["content"].toString(), pass);
 
-		title   = sanitizeEscaping(title[1 .. $-1]);
-		content = sanitizeEscaping(content[1 .. $-1]);
-		//content = escape_escaped(content);
+		import std.ascii : newline;
+		title   = title[1 .. $-1];
+		content = content[1 .. $-1].replaceAll(r"\\r\\n".regex, newline);
 
 		render!("decrypt.dt", title, content);
 	}
