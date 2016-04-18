@@ -15,7 +15,8 @@ block content
     div#about-content
       column(cols="12")
         h2 Get in touch with us
-        p You can report use bugs, abuse, or anything else using our mail address or via our respective ToxIDs. The ToxID listed ontop is the one of the developer that's online pretty much everytime, but you can also contact the others developers without any fear.
+        p.br <b>Note</b>: We're using Tox as our main chat software. You can learn more about Tox by <a href="https://tox.chat">clicking here</a>.
+        p You can report us bugs, abuse, or anything else using our mail address or via our respective ToxIDs. The ToxID listed ontop is the one of the developer that's online pretty much everytime, but you can also contact the others developers without any fear.
 
         h3.text-centered PastaBin Developers
         
