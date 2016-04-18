@@ -462,6 +462,12 @@ nav#menu ul li a:hover {
 	align-self: center;
 	align-items: stretch;
 	margin: 0 auto;
+
+	-webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+       -o-user-select: none;
+          user-select: none;
 }
 
 #staff column {
