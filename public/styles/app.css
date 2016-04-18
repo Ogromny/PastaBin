@@ -29,15 +29,27 @@ a:hover {
   color: #27AE60;
 }
 
-input,
-button,
-a {
-  -webkit-transition: all .2s ease-in-out;
-     -moz-transition: all .2s ease-in-out;
-      -ms-transition: all .2s ease-in-out;
-       -o-transition: all .2s ease-in-out;
-          transition: all .2s ease-in-out;
-}
+input:hover,
+button:hover,
+a:hover {
+	-webkit-transition-property: color, background-color;
+	   -moz-transition-property: color, background-color;
+	    -ms-transition-property: color, background-color;
+	     -o-transition-property: color, background-color;
+	        transition-property: color, background-color;
+
+	-webkit-transition-duration: .5s;
+	   -moz-transition-duration: .5s;
+	    -ms-transition-duration: .5s;
+	     -o-transition-duration: .5s;
+	        transition-duration: .5s;
+
+	-webkit-transition-timing-function: ease-in-out;
+	   -moz-transition-timing-function: ease-in-out;
+	    -ms-transition-timing-function: ease-in-out;
+	     -o-transition-timing-function: ease-in-out;
+	        transition-timing-function: ease-in-out;
+}*/
 
 hr { margin: 20px 0; }
 
