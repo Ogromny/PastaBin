@@ -51,7 +51,7 @@ a:hover {
 	        transition-timing-function: ease-in-out;
 }*/
 
-hr { margin: 20px 0; }
+hr { margin: 20px 0 !important; }
 
 /**
 *  Wrappers.
