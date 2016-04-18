@@ -27,22 +27,26 @@ class WebInterface {
 
 	@method(HTTPMethod.GET) @path("/")
 	void index() {
-		render!("index.dt");
+		bool useScroll = false;
+		render!("index.dt", useScroll);
 	}
 
 	@method(HTTPMethod.GET) @path("/about")
 	void about() {
-		render!("about.dt");
+		bool useScroll = true;
+		render!("about.dt", useScroll);
 	}
 
 	@method(HTTPMethod.GET) @path("/api")
 	void api() {
-		render!("api.dt");
+		bool useScroll = true;
+		render!("api.dt", useScroll);
 	}
 
 	@method(HTTPMethod.GET) @path("/contact")
 	void contact() {
-		render!("contact.dt");
+		bool useScroll = true;
+		render!("contact.dt", useScroll);
 	}
 
 	@method(HTTPMethod.POST) @path("/encrypt")
@@ -79,7 +83,8 @@ class WebInterface {
 		content = content.replaceAll(r"\\r\\n".regex, std.ascii.newline);
 		content = content.replaceAll(r"\\(.)".regex, "$1");
 
-		render!("decrypt.dt", title, content);
+		bool useScroll = false;
+		render!("decrypt.dt", title, content, useScroll);
 	}
 }
 
@@ -100,5 +105,6 @@ shared static this()
 }
 
 void errorHandler (HTTPServerRequest req, HTTPServerResponse res, HTTPServerErrorInfo error) {
-	res.render!("error.dt", req, error);
+	bool useScroll = true;
+	res.render!("error.dt", req, error, useScroll);
 }

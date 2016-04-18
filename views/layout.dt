@@ -6,8 +6,9 @@ html
     meta(name="viewport", content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0")
     link(rel="stylesheet", href="/styles/kube.css")
     link(rel="stylesheet", href="/styles/app.css")
-        
-  body.no-overflow
+  
+  body(class=useScroll == true ? "" : "no-overflow")
+  
     div#wrapper
       row#header
         div#size-wrapper
