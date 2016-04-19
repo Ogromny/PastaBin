@@ -43,7 +43,7 @@ block content
           column(cols="2")
             figure
               a(href="https://github.com/Ogromny/PastaBin/issues")
-                img(src="#{req.rootDir}images/Octocat-hero.png", width="150", height="150", alt="Report an issue an become a super-hero!")
+                img(src="/images/Octocat-hero.png", width="150", height="150", alt="Report an issue an become a super-hero!")
               figcaption Report an issue an become a super-hero!
           column(cols="10")
             h2 Report an issue
