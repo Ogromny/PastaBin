@@ -3,7 +3,7 @@
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
-  transition: none; 
+  transition: none;
 }
 
 html, body {
@@ -94,7 +94,7 @@ form.forms {
   max-height: 100%;
 }
 
-@media (max-width:768px) {
+@media (max-width:360px) {
   #size-wrapper {
     max-width: 100%;
     width: 100%;
@@ -157,7 +157,7 @@ form.forms {
 }
 
 /* Header responsive. */
-@media (max-width:768px) {
+@media (max-width:360px) {
   #header {
     -moz-box-ordinal-group: 0;
 		-webkit-box-ordinal-group: 0;
@@ -217,7 +217,7 @@ nav#menu ul li a:hover {
 }
 
 /* Menu responsive. */
-@media (max-width:768px) {
+@media (max-width:360px) {
   nav#menu ul {
     text-align: center;
   }
@@ -303,7 +303,7 @@ nav#menu ul li a:hover {
 }
 
 /* Paste infos responsive. */
-@media (max-width:768px) {
+@media (max-width:360px) {
   #paste-infos {
     -moz-box-ordinal-group: 2;
 		-webkit-box-ordinal-group: 2;
@@ -375,7 +375,7 @@ nav#menu ul li a:hover {
 }
 
 /* Paste content responsive. */
-@media (max-width:768px) {
+@media (max-width:360px) {
   #paste-content {
     -moz-box-ordinal-group: 1;
 		-webkit-box-ordinal-group: 1;
@@ -431,7 +431,7 @@ nav#menu ul li a:hover {
 }
 
 /* About page responsive. */
-@media (max-width:768px) {
+@media (max-width:360px) {
   #about-content {
     display: block;
   }
@@ -516,7 +516,7 @@ nav#menu ul li a:hover {
 }
 
 /* Staff widget responsive. */
-@media (max-width: 768px) {
+@media (max-width: 360px) {
 	#staff {
 		display: block;
 		width: 100%;
