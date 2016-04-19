@@ -100,7 +100,7 @@ shared static this()
 	auto settings             = new HTTPServerSettings;
 	settings.sessionStore     = new MemorySessionStore;
 	settings.errorPageHandler = toDelegate(&errorHandler);
-	settings.bindAddresses    = ["::1", "127.0.0.1"];
+	settings.bindAddresses    = ["::1", "127.0.0.1", "pastabin.pw"];
 	settings.port             = 8080;
 	listenHTTP(settings, router);
 }
