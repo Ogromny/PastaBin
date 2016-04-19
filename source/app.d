@@ -19,6 +19,7 @@ import utils;
 
 enum secretKey = "PastaBin";
 MongoCollection pastabin_message;
+string base_uri = "https://pastabin.pw";
 
 class WebInterface {
 	private {
@@ -67,7 +68,7 @@ class WebInterface {
 		string id = message["_id"].toString();
 		id        = id[1 .. $-1]; /* supprime les "" */
 
-		redirect("/p/" ~ id ~ "/" ~ password ~ "/");
+		redirect(base_uri ~ "/p/" ~ id ~ "/" ~ password ~ "/");
 	}
 
 	@method(HTTPMethod.GET) @path("/p/:id/:pass/")
