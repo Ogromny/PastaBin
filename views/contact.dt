@@ -19,31 +19,31 @@ block content
         p You can report us bugs, abuse, or anything else using our mail address or via our respective ToxIDs. The ToxID listed ontop is the one of the developer that's online pretty much everytime, but you can also contact the others developers without any fear.
 
         h3.text-centered PastaBin Developers
-        
+
         div#staff-wrapper
           row#staff
             column(cols="4")
               div
-                img.left(src="https://avatars1.githubusercontent.com/u/10464831?v=3&s=48")
+                img.left(src="https://avatars1.githubusercontent.com/u/10464831?v=3&s=48" width="48", height="48")
                 div.right
                   h2.name <a href="https://github.com/Ogromny">Ogromny</a>
                   p.bio PastaBin is gonna defeat Pastebin.
               a.tox(href="tox:10EC72CA34FB138A6246B48DA8A616D008400F95D61201EB3DD70502601C682098CA00A65543") Contact Ogromny using Tox
             column(cols="4")
               div
-                img.left(src="https://avatars3.githubusercontent.com/u/8523159?v=3&s=48")
+                img.left(src="https://avatars3.githubusercontent.com/u/8523159?v=3&s=48" width="48", height="48")
                 div.right
                   h2.name <a href="https://github.com/SkyzohKey">SkyzohKey</a>
                   p.bio Doing some black magic to get beautiful things.
               a.tox(href="tox:DFB4958A86122ACF81BB852DBC767DB8A3A7281A8EDBC83121B30C294E29586970B731949415") Contact SkyzohKey using Tox
-              
+
         hr
-        
+
         row
           column(cols="2")
             figure
               a(href="https://github.com/Ogromny/PastaBin/issues")
-                img(src="#{req.rootDir}images/Octocat-hero.png", width="150", height="150")
+                img(src="#{req.rootDir}images/Octocat-hero.png", width="150", height="150", alt="Report an issue an become a super-hero!")
               figcaption Report an issue an become a super-hero!
           column(cols="10")
             h2 Report an issue

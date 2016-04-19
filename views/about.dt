@@ -16,7 +16,7 @@ block content
       column(cols="2")
         figure
           a(href="https://github.com/Ogromny/PastaBin")
-            img(src="#{req.rootDir}images/Octocat.png", width="150", height="150")
+            img(src="#{req.rootDir}images/Octocat.png", width="150", height="150", alt="We strongly believe in the power of Open-Source!")
           figcaption We strongly believe in the power of Open-Source!
       column(cols="10")
         h2 Introducing PastaBin, an encrypted way to share
