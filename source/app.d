@@ -82,7 +82,8 @@ class WebInterface {
 		title   = title[1 .. $-1];
 		content = content[1 .. $-1];
 		content = content.replaceAll(r"\\r\\n".regex, std.ascii.newline);
-		content = content.replaceAll(r"\\(.)".regex, "$1");
+		content = content.replaceAll(r"\\t".regex, '\t');
+		//content = content.replaceAll(r"\\(.)".regex, "$1");
 
 		bool useScroll = false;
 		render!("decrypt.dt", title, content, useScroll);
