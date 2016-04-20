@@ -50,6 +50,12 @@ class WebInterface {
 		render!("contact.dt", useScroll);
 	}
 
+	@method(HTTPMethod.GET) @path("/roadmap")
+	void roadmap() {
+		bool useScroll = true;
+		render!("roadmap.dt", useScroll);
+	}
+
 	@method(HTTPMethod.POST) @path("/encrypt")
 	void postEncrypt(string paste_title, string paste_content, string paste_password = "")
 	{
