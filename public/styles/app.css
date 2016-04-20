@@ -76,6 +76,7 @@ hr { margin: 20px 0 !important; }
 
 #size-wrapper {
   max-width: 960px;
+	width: 960px;
   min-height: 100%;
   margin: 0 auto;
   display: flex;
