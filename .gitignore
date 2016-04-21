@@ -20,5 +20,6 @@ pastabin
 
 # DUB
 .dub
+dub.selections.json # Auto generated from dub.json
 docs.json
 __dummy.html

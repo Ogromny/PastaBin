@@ -3,6 +3,7 @@ module app;
 /* std */
 import std.regex;
 import std.digest.sha;
+import std.stdio;
 
 /* vibe */
 import vibe.d;
@@ -12,6 +13,10 @@ import vibe.templ.parsertools;
 import vibe.http.router;
 import vibe.http.server;
 import vibe.web.web;
+
+/* Mustache template engine */
+import mustache;
+alias MustacheEngine!(string) Mustache;
 
 /* external .d's */
 import encrypt;
@@ -26,41 +31,55 @@ class WebInterface {
 		// Here we can store session vars.
 	}
 
+	private void renderTemplate(HTTPServerResponse res, string file, Mustache.Context ctx) {
+		Mustache mustache;
+		mustache.path = "views/";
+		mustache.ext  = "html";
+
+		auto html = mustache.render(file, ctx);
+		res.writeBody(html, 200, "text/html, charset=UTF-8");
+	}
+
 	@method(HTTPMethod.GET) @path("/")
-	void index() {
-		bool useScroll = false;
-		render!("index.dt", useScroll);
+	void index(HTTPServerResponse res) {
+		auto ctx = new Mustache.Context;
+		ctx["page-title"] = "Welcome!";
+		renderTemplate(res, "index", ctx);
 	}
 
 	@method(HTTPMethod.GET) @path("/about")
-	void about() {
-		bool useScroll = true;
-		render!("about.dt", useScroll);
+	void about(HTTPServerResponse res) {
+		auto ctx = new Mustache.Context;
+		ctx["page-title"] = "About us";
+		renderTemplate(res, "about", ctx);
 	}
 
 	@method(HTTPMethod.GET) @path("/api")
-	void api() {
-		bool useScroll = true;
-		render!("api.dt", useScroll);
+	void api(HTTPServerResponse res) {
+		auto ctx = new Mustache.Context;
+		ctx["page-title"] = "API";
+		renderTemplate(res, "api", ctx);
 	}
 
 	@method(HTTPMethod.GET) @path("/contact")
-	void contact() {
-		bool useScroll = true;
-		render!("contact.dt", useScroll);
+	void contact(HTTPServerResponse res) {
+		auto ctx = new Mustache.Context;
+		ctx["page-title"] = "Contact us";
+		renderTemplate(res, "contact", ctx);
 	}
 
 	@method(HTTPMethod.GET) @path("/roadmap")
-	void roadmap() {
-		bool useScroll = true;
-		render!("roadmap.dt", useScroll);
+	void roadmap(HTTPServerResponse res) {
+		auto ctx = new Mustache.Context;
+		ctx["page-title"] = "Roadmap";
+		renderTemplate(res, "roadmap", ctx);
 	}
 
 	@method(HTTPMethod.POST) @path("/encrypt")
-	void postEncrypt(string paste_title, string paste_content, string paste_password = "")
+	void postEncrypt(string paste_title, string paste_content, string paste_pass = "")
 	{
 		string title    = paste_title;
-		string password = toHexString(sha256Of(paste_password ~ secretKey));
+		string password = toHexString(sha256Of(paste_pass ~ secretKey));
 		string content  = encrypt_string(paste_content, password);
 
 		/* BSON message */
@@ -78,7 +97,7 @@ class WebInterface {
 	}
 
 	@method(HTTPMethod.GET) @path("/p/:id/:pass/")
-	void decrypt(string _id, string _pass)
+	void decrypt(HTTPServerResponse res, string _id, string _pass)
 	{
 		Json paste  = pastabin_message.findOne(["_id": BsonObjectID.fromString(_id)]).toJson();
 
@@ -91,8 +110,13 @@ class WebInterface {
 		content = content.replaceAll(r"\\t".regex, "\t");
 		//content = content.replaceAll(r"\\(.)".regex, "$1");
 
-		bool useScroll = false;
-		render!("decrypt.dt", title, content, useScroll);
+		auto ctx = new Mustache.Context;
+		ctx["page-title"] = "Decrypt « " ~ title ~ " »";
+		ctx["paste-title"] = title;
+		ctx["paste-content"] = content;
+
+		renderTemplate(res, "decrypt", ctx);
+		//render!("decrypt.dt", title, content, useScroll);
 	}
 }
 
@@ -102,6 +126,10 @@ shared static this()
 
 	auto router = new URLRouter;
 	router.registerWebInterface(new WebInterface);
+	/**
+	* Uncomment the following line in local.
+	* In production assets are stored at https://cdn.pastabin.pw/(styles|images)
+	**/
 	router.get("*", serveStaticFiles("public"));
 
 	auto settings             = new HTTPServerSettings;
@@ -113,6 +141,16 @@ shared static this()
 }
 
 void errorHandler (HTTPServerRequest req, HTTPServerResponse res, HTTPServerErrorInfo error) {
-	bool useScroll = true;
-	res.render!("error.dt", req, error, useScroll);
+	Mustache mustache;
+	mustache.path = "views/";
+	mustache.ext  = "html";
+
+	auto ctx = new Mustache.Context;
+	ctx["page-title"] = to!string(error.code) ~ ": " ~ error.message;
+	ctx["code"] = error.code;
+	ctx["debugMessage"] = error.debugMessage;
+	ctx["message"] = error.message;
+
+	auto html = mustache.render("error", ctx);
+	res.writeBody(html, error.code, "text/html, charset=UTF-8");
 }
