@@ -23,3 +23,6 @@ pastabin
 dub.selections.json # Auto generated from dub.json
 docs.json
 __dummy.html
+
+# .patch files
+*.patch
