@@ -120,9 +120,10 @@ class WebInterface {
 		content = decryptor.decrypt(content);
 
 		/* Fix escaped char */
+		import std.ascii; // newline
 		title   = title[1 .. $-1]; // rm "..."
 		content = content[1 .. $-1]; // rm "..."
-		content = content.replaceAll(r"\\r\\n".regex, std.ascii.newline); // mv \r\n newline
+		content = content.replaceAll(r"\\r\\n".regex, newline); // mv \r\n newline
 		content = content.replaceAll(r"\\t".regex, "\t"); // unescape escaped char
 		//content = content.replaceAll(r"\\(.)".regex, "$1");
 
@@ -151,7 +152,7 @@ shared static this()
 	auto settings             = new HTTPServerSettings;
 	settings.sessionStore     = new MemorySessionStore;
 	settings.errorPageHandler = toDelegate(&errorHandler);
-	settings.bindAddresses    = ["::1", "127.0.0.1", "pastabin.pw"];
+	settings.bindAddresses    = ["::1", "127.0.0.1"/*, "pastabin.pw"*/];
 	settings.port             = 8080;
 	listenHTTP(settings, router);
 }
