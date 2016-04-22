@@ -37,7 +37,7 @@ class WebInterface {
 		mustache.ext  = "html";
 
 		auto html = mustache.render(file, ctx);
-		res.writeBody(html, 200, "text/html, charset=UTF-8");
+		res.writeBody(html, 200, "text/html;charset=UTF-8");
 	}
 
 	@method(HTTPMethod.GET) @path("/")
