@@ -3,7 +3,6 @@ module app;
 /* std */
 import std.regex;
 import std.digest.sha;
-import std.stdio;
 
 /* vibe */
 import vibe.d;
@@ -18,11 +17,11 @@ import vibe.web.web;
 import mustache;
 alias MustacheEngine!(string) Mustache;
 
-/* external .d's */
-import encrypt;
-import utils;
+/* dcrypto */
+import dcrypto.evp;
 
 enum secretKey = "PastaBin";
+enum secretSalt = "Salt";
 MongoCollection pastabin_message;
 string base_uri = "https://pastabin.pw";
 
@@ -78,9 +77,15 @@ class WebInterface {
 	@method(HTTPMethod.POST) @path("/encrypt")
 	void postEncrypt(string paste_title, string paste_content, string paste_pass = "")
 	{
+		/* init var */
 		string title    = paste_title;
 		string password = toHexString(sha256Of(paste_pass ~ secretKey));
-		string content  = encrypt_string(paste_content, password);
+		string content  = paste_content;
+
+		/* Encrypt AES 256 */
+		auto key = keyFromSecret(password, secretSalt);
+		EVPEncryptor encryptor = new EVPEncryptor(key);
+		content = encryptor.encrypt(content);
 
 		/* BSON message */
 		Bson message = Bson.emptyObject;
@@ -88,35 +93,46 @@ class WebInterface {
 		message["title"]   = title;
 		message["content"] = content;
 
+		/* insert in BDD */
 		pastabin_message.insert(message);
 
-		string id = message["_id"].toString();
-		id        = id[1 .. $-1]; /* supprime les "" */
+		/* Fix escaped char */
+		string id = message["_id"].toString()[1 .. $-1]; // rm "..."
 
+		/* render */
 		redirect(base_uri ~ "/p/" ~ id ~ "/" ~ password ~ "/");
 	}
 
 	@method(HTTPMethod.GET) @path("/p/:id/:pass/")
 	void decrypt(HTTPServerResponse res, string _id, string _pass)
 	{
+		/* get Json Object from BDD */
 		Json paste  = pastabin_message.findOne(["_id": BsonObjectID.fromString(_id)]).toJson();
 
+		/* init var */
 		string title   = paste["title"].toString();
-		string content = decrypt_string(paste["content"].toString(), _pass);
+		string content = paste["content"].toString();
+		string password = _pass;
 
-		title   = title[1 .. $-1];
-		content = content[1 .. $-1];
-		content = content.replaceAll(r"\\r\\n".regex, std.ascii.newline);
-		content = content.replaceAll(r"\\t".regex, "\t");
+		/* Decrypt AES 256 */
+		auto key = keyFromSecret(password, secretSalt);
+		EVPDecryptor decryptor = new EVPDecryptor(key);
+		content = decryptor.decrypt(content);
+
+		/* Fix escaped char */
+		title   = title[1 .. $-1]; // rm "..."
+		content = content[1 .. $-1]; // rm "..."
+		content = content.replaceAll(r"\\r\\n".regex, std.ascii.newline); // mv \r\n newline
+		content = content.replaceAll(r"\\t".regex, "\t"); // unescape escaped char
 		//content = content.replaceAll(r"\\(.)".regex, "$1");
 
+		/* render */
 		auto ctx = new Mustache.Context;
 		ctx["page-title"] = "Decrypt « " ~ title ~ " »";
 		ctx["paste-title"] = title;
 		ctx["paste-content"] = content;
 
 		renderTemplate(res, "decrypt", ctx);
-		//render!("decrypt.dt", title, content, useScroll);
 	}
 }
 
