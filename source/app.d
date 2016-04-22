@@ -169,5 +169,5 @@ void errorHandler (HTTPServerRequest req, HTTPServerResponse res, HTTPServerErro
 	ctx["message"] = error.message;
 
 	auto html = mustache.render("error", ctx);
-	res.writeBody(html, error.code, "text/html, charset=UTF-8");
+	res.writeBody(html, error.code, "text/html;charset=UTF-8");
 }
