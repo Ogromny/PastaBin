@@ -14,11 +14,14 @@ import vibe.http.router;
 import vibe.http.server;
 import vibe.web.web;
 
+/* dcrypto */
+import dcrypto.evp;
+
 /* Mustache template engine */
 import mustache;
 alias MustacheEngine!(string) Mustache;
 
-enum secretKey = "PastaBin";
+enum secretKey = "od(!^L2CXd$^Bj2N#is#yZ5TM3UssJ7q";
 MongoCollection pastabin_message;
 string base_uri = "https://pastabin.pw";
 
@@ -74,9 +77,15 @@ class WebInterface {
 	@method(HTTPMethod.POST) @path("/encrypt")
 	void postEncrypt(string paste_title, string paste_content, string paste_pass = "")
 	{
+		/* init var */
 		string title    = paste_title;
 		string password = toHexString(sha256Of(paste_pass ~ secretKey));
-		string content  = encrypt_string(paste_content, password);
+		string content  = paste_content;
+
+		/* Encrypt AES 256 */
+		auto key = keyFromSecret(password, secretKey);
+		EVPEncryptor encryptor = new EVPEncryptor(key);
+		content = encryptor.encrypt(content);
 
 		/* BSON message */
 		Bson message = Bson.emptyObject;
@@ -97,14 +106,25 @@ class WebInterface {
 	{
 		Json paste  = pastabin_message.findOne(["_id": BsonObjectID.fromString(_id)]).toJson();
 
+		/* init var */
 		string title   = paste["title"].toString();
-		string content = decrypt_string(paste["content"].toString(), _pass);
+		string content = paste["content"].toString();
+		string password = _pass;
 
-		title   = title[1 .. $-1];
-		content = content[1 .. $-1];
-		content = content.replaceAll(r"\\r\\n".regex, std.ascii.newline);
-		content = content.replaceAll(r"\\t".regex, "\t");
-		//content = content.replaceAll(r"\\(.)".regex, "$1");
+		/* Decrypt AES 256 */
+		auto key = keyFromSecret(password, secretSalt);
+		EVPDecryptor decryptor = new EVPDecryptor(key);
+		content = decryptor.decrypt(content);
+
+		/**
+		* HACK: Fix escaped char.
+		* TODO: Find a better way to do this.
+		**/
+		import std.ascii; // newline
+		title   = title[1 .. $-1]; // rm "..."
+		content = content[1 .. $-1]; // rm "..."
+		content = content.replaceAll(r"\\r\\n".regex, newline); // mv \r\n newline
+		content = content.replaceAll(r"\\t".regex, "\t"); // unescape escaped char
 
 		auto ctx = new Mustache.Context;
 		ctx["page-title"] = "Decrypt « " ~ title ~ " »";
