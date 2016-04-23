@@ -112,7 +112,7 @@ class WebInterface {
 		string password = _pass;
 
 		/* Decrypt AES 256 */
-		auto key = keyFromSecret(password, secretSalt);
+		auto key = keyFromSecret(password, secretKey);
 		EVPDecryptor decryptor = new EVPDecryptor(key);
 		content = decryptor.decrypt(content);
 
