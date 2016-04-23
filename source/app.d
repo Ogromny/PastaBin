@@ -18,10 +18,6 @@ import vibe.web.web;
 import mustache;
 alias MustacheEngine!(string) Mustache;
 
-/* external .d's */
-import encrypt;
-import utils;
-
 enum secretKey = "PastaBin";
 MongoCollection pastabin_message;
 string base_uri = "https://pastabin.pw";
