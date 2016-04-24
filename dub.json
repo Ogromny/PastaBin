@@ -9,10 +9,6 @@
       "SkyzohKey <skyzohkey@protonmail.com>"
     ],
 
-    "targetPath":  "bin",
-    "targetName":  "pastabin",
-    "targetType":  "executable",
-
     "mainSourceFile": "source/app.d",
     "sourceFiles": [
       "source/app.d"

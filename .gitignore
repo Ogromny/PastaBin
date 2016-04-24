@@ -20,7 +20,11 @@ pastabin
 
 # DUB
 .dub
-dub.selections.json # Auto generated from dub.json
+
+# Auto generated from dub.json
+*.selections.json
+*.sdl
+
 docs.json
 __dummy.html
 

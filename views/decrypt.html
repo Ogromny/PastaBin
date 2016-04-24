@@ -4,14 +4,14 @@
     <div id="title">
       <h1>{{paste-title}}</h1>
     </div>
-    <!--<div id="buttons">
-      <button type="submit"></button>
-    </div>-->
+    <div id="buttons">
+      <a href="/raw/{{paste-id}}/{{paste-pass}}/">RAW Paste</a>
+    </div>
   </div>
 </section>
 <main>
   <div id="main">
-    <textarea readonly="readonly" id="paste-content" placeholder="Write an awesome paste here...">{{paste-content}}</textarea>
+    <pre id="paste-content" placeholder="Write an awesome paste here...">{{paste-content}}</pre>
   </div>
 </main>
 

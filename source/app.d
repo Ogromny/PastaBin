@@ -95,9 +95,7 @@ class WebInterface {
 
 		pastabin_message.insert(message);
 
-		string id = message["_id"].toString();
-		id        = id[1 .. $-1]; /* supprime les "" */
-
+		string id = message["_id"].toString()[1 .. $-1];
 		redirect(base_uri ~ "/p/" ~ id ~ "/" ~ password ~ "/");
 	}
 
@@ -123,16 +121,48 @@ class WebInterface {
 		import std.ascii; // newline
 		title   = title[1 .. $-1]; // rm "..."
 		content = content[1 .. $-1]; // rm "..."
-		content = content.replaceAll(r"\\r\\n".regex, newline); // mv \r\n newline
-		content = content.replaceAll(r"\\t".regex, "\t"); // unescape escaped char
+		//content = content.replaceAll(r"\\r\\n".regex, newline); // mv \r\n newline
+		//content = content.replaceAll(r"\\t".regex, "\t"); // unescape escaped char
+		//content = to!string(content);
 
 		auto ctx = new Mustache.Context;
 		ctx["page-title"] = "Decrypt « " ~ title ~ " »";
+		ctx["paste-id"] = _id;
+		/**
+		* HACK: Get the password from the URL.
+		*	TODO: Get the password from the headers (auth).
+		**/
+		ctx["paste-pass"] = _pass;
 		ctx["paste-title"] = title;
 		ctx["paste-content"] = content;
 
 		renderTemplate(res, "decrypt", ctx);
 		//render!("decrypt.dt", title, content, useScroll);
+	}
+
+	@method(HTTPMethod.GET) @path("/raw/:id/:pass/")
+	void raw(HTTPServerResponse res, string _id, string _pass)
+	{
+		Json paste  = pastabin_message.findOne(["_id": BsonObjectID.fromString(_id)]).toJson();
+
+		/* init var */
+		string title   = paste["title"].toString();
+		string content = paste["content"].toString();
+		string password = _pass;
+
+		/* Decrypt AES 256 */
+		auto key = keyFromSecret(password, secretKey);
+		EVPDecryptor decryptor = new EVPDecryptor(key);
+		content = decryptor.decrypt(content);
+
+		/**
+		* HACK: Fix escaped char.
+		* TODO: Find a better way to do this.
+		**/
+		title   = title[1 .. $-1]; // rm "..."
+		content = content[1 .. $-1]; // rm "..."
+
+		res.writeBody(content, 200, "text/html;charset=UTF-8");
 	}
 }
 
@@ -146,12 +176,12 @@ shared static this()
 	* Uncomment the following line in local.
 	* In production assets are stored at https://cdn.pastabin.pw/(styles|images)
 	**/
-	//router.get("*", serveStaticFiles("public"));
+	//router.get("/static/", serveStaticFiles("public"));
 
 	auto settings             = new HTTPServerSettings;
 	settings.sessionStore     = new MemorySessionStore;
 	settings.errorPageHandler = toDelegate(&errorHandler);
-	settings.bindAddresses    = ["::1", "127.0.0.1", "pastabin.pw"];
+	settings.bindAddresses    = ["::1", "127.0.0.1"];
 	settings.port             = 8080;
 	listenHTTP(settings, router);
 }

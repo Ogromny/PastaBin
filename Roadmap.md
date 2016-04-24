@@ -6,7 +6,7 @@
 * [x] Do a nice design and integrate it.
 * [x] Add misc pages such as `about`, `api`, `contact`.
 * [x] Rewrite `app.d` using vibe.WebInterface.
-* [ ] Rework the responsiveness focusing on content size, not device size.
+* [x] Rework the responsiveness focusing on content size, not device size.
 
 ## v0.3.0 (beta-2)
 * [ ] Public pastes (no passwords) for the average user.
