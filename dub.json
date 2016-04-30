@@ -9,12 +9,7 @@
       "SkyzohKey <skyzohkey@protonmail.com>"
     ],
 
-    "mainSourceFile": "source/app.d",
-    "sourceFiles": [
-      "source/app.d"
-    ],
-
-    "dflags": ["-main"],
+    "versions": ["VibeDefaultMain"],
 
     "dependencies": {
       "mustache-d": "~>0.1.1",
