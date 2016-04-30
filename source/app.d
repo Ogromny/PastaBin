@@ -172,11 +172,12 @@ shared static this()
 
 	auto router = new URLRouter;
 	router.registerWebInterface(new WebInterface);
+	router.get("*", serveStaticFiles("./public/"));
 	/**
 	* Uncomment the following line in local.
 	* In production assets are stored at https://cdn.pastabin.pw/(styles|images)
 	**/
-	//router.get("/static/", serveStaticFiles("public"));
+	// router.get("/static/", serveStaticFiles("public"));
 
 	auto settings             = new HTTPServerSettings;
 	settings.sessionStore     = new MemorySessionStore;
