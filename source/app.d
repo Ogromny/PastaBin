@@ -62,6 +62,7 @@ renderTemplate (HTTPServerResponse response, string file, Context ctx)
          case "api"    : title = "API"     ; break;
          case "contact": title = "Contact" ; break;
          case "roadmap": title = "Roadmap" ; break;
+         case "decrypt": title = "Decrypt" ; break;
      }
 
     ctx ["page-title"] = title;
