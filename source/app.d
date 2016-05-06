@@ -1,203 +1,144 @@
 module app;
 
-/* std */
-import std.regex;
-import std.digest.sha;
-import std.stdio;
-
-/* vibe */
 import vibe.d;
-import vibe.db.mongo.mongo;
-import vibe.data.bson;
-import vibe.templ.parsertools;
-import vibe.http.router;
-import vibe.http.server;
-import vibe.web.web;
 
-/* dcrypto */
-import dcrypto.evp;
+import mustache_utils;
+import dcrypto_utils;
+import sha_utils;
+import mongo_utils;
 
-/* Mustache template engine */
-import mustache;
-alias MustacheEngine!(string) Mustache;
-
-enum secretKey = "od(!^L2CXd$^Bj2N#is#yZ5TM3UssJ7q";
-MongoCollection pastabin_message;
-string base_uri = "https://pastabin.pw";
-
-class WebInterface {
-	private {
-		// Here we can store session vars.
-	}
-
-	private void renderTemplate(HTTPServerResponse res, string file, Mustache.Context ctx) {
-		Mustache mustache;
-		mustache.path = "views/";
-		mustache.ext  = "html";
-
-		auto html = mustache.render(file, ctx);
-		res.writeBody(html, 200, "text/html;charset=UTF-8");
-	}
-
-	@method(HTTPMethod.GET) @path("/")
-	void index(HTTPServerResponse res) {
-		auto ctx = new Mustache.Context;
-		ctx["page-title"] = "Welcome!";
-		renderTemplate(res, "index", ctx);
-	}
-
-	@method(HTTPMethod.GET) @path("/about")
-	void about(HTTPServerResponse res) {
-		auto ctx = new Mustache.Context;
-		ctx["page-title"] = "About us";
-		renderTemplate(res, "about", ctx);
-	}
-
-	@method(HTTPMethod.GET) @path("/api")
-	void api(HTTPServerResponse res) {
-		auto ctx = new Mustache.Context;
-		ctx["page-title"] = "API";
-		renderTemplate(res, "api", ctx);
-	}
-
-	@method(HTTPMethod.GET) @path("/contact")
-	void contact(HTTPServerResponse res) {
-		auto ctx = new Mustache.Context;
-		ctx["page-title"] = "Contact us";
-		renderTemplate(res, "contact", ctx);
-	}
-
-	@method(HTTPMethod.GET) @path("/roadmap")
-	void roadmap(HTTPServerResponse res) {
-		auto ctx = new Mustache.Context;
-		ctx["page-title"] = "Roadmap";
-		renderTemplate(res, "roadmap", ctx);
-	}
-
-	@method(HTTPMethod.POST) @path("/encrypt")
-	void postEncrypt(string paste_title, string paste_content, string paste_pass = "")
-	{
-		/* init var */
-		string title    = paste_title;
-		string password = toHexString(sha256Of(paste_pass ~ secretKey));
-		string content  = paste_content;
-
-		/* Encrypt AES 256 */
-		auto key = keyFromSecret(password, secretKey);
-		EVPEncryptor encryptor = new EVPEncryptor(key);
-		content = encryptor.encrypt(content);
-
-		/* BSON message */
-		Bson message = Bson.emptyObject;
-		message["_id"]     = BsonObjectID.generate();
-		message["title"]   = title;
-		message["content"] = content;
-
-		pastabin_message.insert(message);
-
-		string id = message["_id"].toString()[1 .. $-1];
-		redirect(base_uri ~ "/p/" ~ id ~ "/" ~ password ~ "/");
-	}
-
-	@method(HTTPMethod.GET) @path("/p/:id/:pass/")
-	void decrypt(HTTPServerResponse res, string _id, string _pass)
-	{
-		Json paste  = pastabin_message.findOne(["_id": BsonObjectID.fromString(_id)]).toJson();
-
-		/* init var */
-		string title   = paste["title"].toString();
-		string content = paste["content"].toString();
-		string password = _pass;
-
-		/* Decrypt AES 256 */
-		auto key = keyFromSecret(password, secretKey);
-		EVPDecryptor decryptor = new EVPDecryptor(key);
-		content = decryptor.decrypt(content);
-
-		/**
-		* HACK: Fix escaped char.
-		* TODO: Find a better way to do this.
-		**/
-		import std.ascii; // newline
-		title   = title[1 .. $-1]; // rm "..."
-		content = content[1 .. $-1]; // rm "..."
-		//content = content.replaceAll(r"\\r\\n".regex, newline); // mv \r\n newline
-		//content = content.replaceAll(r"\\t".regex, "\t"); // unescape escaped char
-		//content = to!string(content);
-
-		auto ctx = new Mustache.Context;
-		ctx["page-title"] = "Decrypt « " ~ title ~ " »";
-		ctx["paste-id"] = _id;
-		/**
-		* HACK: Get the password from the URL.
-		*	TODO: Get the password from the headers (auth).
-		**/
-		ctx["paste-pass"] = _pass;
-		ctx["paste-title"] = title;
-		ctx["paste-content"] = content;
-
-		renderTemplate(res, "decrypt", ctx);
-		//render!("decrypt.dt", title, content, useScroll);
-	}
-
-	@method(HTTPMethod.GET) @path("/raw/:id/:pass/")
-	void raw(HTTPServerResponse res, string _id, string _pass)
-	{
-		Json paste  = pastabin_message.findOne(["_id": BsonObjectID.fromString(_id)]).toJson();
-
-		/* init var */
-		string title   = paste["title"].toString();
-		string content = paste["content"].toString();
-		string password = _pass;
-
-		/* Decrypt AES 256 */
-		auto key = keyFromSecret(password, secretKey);
-		EVPDecryptor decryptor = new EVPDecryptor(key);
-		content = decryptor.decrypt(content);
-
-		/**
-		* HACK: Fix escaped char.
-		* TODO: Find a better way to do this.
-		**/
-		title   = title[1 .. $-1]; // rm "..."
-		content = content[1 .. $-1]; // rm "..."
-
-		res.writeBody(content, 200, "text/html;charset=UTF-8");
-	}
-}
-
-shared static this()
+enum
 {
-	pastabin_message = connectMongoDB("127.0.0.1").getCollection("pastabin.message");
-
-	auto router = new URLRouter;
-	router.registerWebInterface(new WebInterface);
-	router.get("*", serveStaticFiles("./public/"));
-	/**
-	* Uncomment the following line in local.
-	* In production assets are stored at https://cdn.pastabin.pw/(styles|images)
-	**/
-	// router.get("/static/", serveStaticFiles("public"));
-
-	auto settings             = new HTTPServerSettings;
-	settings.sessionStore     = new MemorySessionStore;
-	settings.errorPageHandler = toDelegate(&errorHandler);
-	settings.bindAddresses    = ["::1", "127.0.0.1"];
-	settings.port             = 8080;
-	listenHTTP(settings, router);
+    NGINX_IS_USE = false,
+    HTML_STATUS  = "text/html;charset=UTF-8",
+    URL          = "pastabin.pw",
 }
 
-void errorHandler (HTTPServerRequest req, HTTPServerResponse res, HTTPServerErrorInfo error) {
-	Mustache mustache;
-	mustache.path = "views/";
-	mustache.ext  = "html";
+shared static
+this ()
+{
+    URLRouter router = new URLRouter;
+    router.registerWebInterface (new WebInterface);
 
-	auto ctx = new Mustache.Context;
-	ctx["page-title"] = to!string(error.code) ~ ": " ~ error.message;
-	ctx["code"] = error.code;
-	ctx["debugMessage"] = error.debugMessage;
-	ctx["message"] = error.message;
+    if (!NGINX_IS_USE)
+     {
+         router.get ("*", serveStaticFiles ("./public/"));
+     }
 
-	auto html = mustache.render("error", ctx);
-	res.writeBody(html, error.code, "text/html;charset=UTF-8");
+    HTTPServerSettings settings = new HTTPServerSettings;
+    settings.bindAddresses      = ["127.0.0.1"];
+    settings.hostName           = "pastabin.pw";
+    settings.port               = 8080;
+    settings.errorPageHandler   = toDelegate(&errorPageHandler);
+
+    initMustache ("views/", "html");
+
+    listenHTTP (settings, router);
+}
+
+void
+errorPageHandler (HTTPServerRequest request, HTTPServerResponse response, HTTPServerErrorInfo error)
+{
+    Context ctx = new Context;
+    ctx ["page-title"]   = "Error: " ~ to!string (error.code);
+    ctx ["code"]         = error.code;
+    ctx ["debugMessage"] = error.debugMessage;
+    ctx ["message"]      = error.message;
+
+    string html = global_mustache.render ("error", ctx);
+
+    response.writeBody (html, error.code, HTML_STATUS);
+}
+
+void
+renderTemplate (HTTPServerResponse response, string file, Context ctx)
+{
+    string title;
+
+    final switch (file)
+     {
+         case "index"  : title = "Welcome!"; break;
+         case "about"  : title = "About us"; break;
+         case "api"    : title = "API"     ; break;
+         case "contact": title = "Contact" ; break;
+         case "roadmap": title = "Roadmap" ; break;
+     }
+
+    ctx ["page-title"] = title;
+
+    string html = global_mustache.render (file, ctx);
+
+    response.writeBody (html, 200, HTML_STATUS);
+}
+
+class WebInterface
+{
+    private:
+
+        @method (HTTPMethod.GET) @path ("/") void
+        index (HTTPServerResponse response)
+        {
+            renderTemplate (response, "index", new Context);
+        }
+
+        @method (HTTPMethod.GET) @path ("/about") void
+        about (HTTPServerResponse response)
+        {
+            renderTemplate (response, "about", new Context);
+        }
+
+        @method (HTTPMethod.GET) @path ("/api") void
+        api (HTTPServerResponse response)
+        {
+            renderTemplate (response, "api", new Context);
+        }
+
+        @method (HTTPMethod.GET) @path ("/contact") void
+        contact (HTTPServerResponse response)
+        {
+            renderTemplate (response, "contact", new Context);
+        }
+
+        @method (HTTPMethod.GET) @path ("/roadmap") void
+        roadmap (HTTPServerResponse response)
+        {
+            renderTemplate (response, "roadmap", new Context);
+        }
+
+        @method (HTTPMethod.POST) @path ("/encrypt") void
+        encrypt (string paste_title, string paste_content, string paste_pass = string.init)
+        {
+            string title    = paste_title;
+            // string password = toSHA256 (paste_pass ~ secret_salt);
+            string password = toHexString (sha256Of (paste_pass ~ secret_salt));
+            string content  = dcrypto_utils.encrypt(paste_content, password, secret_salt);
+
+            Bson message        = Bson.emptyObject;
+            message ["_id"]     = BsonObjectID.generate ();
+            message ["title"]   = title;
+            message ["content"] = content;
+
+            add (message);
+
+            redirect (URL ~ "/p/" ~ message.toString ~ "/" ~ password ~ "/");
+        }
+
+        @method (HTTPMethod.GET) @path ("/p/:id/:pass/") void
+        decrypt (HTTPServerResponse response, string _id, string _pass)
+        {
+            Json paste = findMessage (_id);
+
+            string title = paste ["title"].toString;
+            string password = _pass;
+            string content = dcrypto_utils.decrypt (paste ["content"].toString, password, secret_salt);
+
+            /* fix bug escaped char */
+
+            Context ctx = new Context;
+            ctx ["paste-id"]      = _id;
+            ctx ["paste-pass"]    = _pass;
+            ctx ["paste-content"] = content;
+
+            renderTemplate(response, "decrypt", ctx);
+        }
 }
