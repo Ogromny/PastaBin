@@ -73,7 +73,7 @@ renderTemplate (HTTPServerResponse response, string file, Context ctx)
 
 class WebInterface
 {
-    private:
+    public:
 
         @method (HTTPMethod.GET) @path ("/") void
         index (HTTPServerResponse response)
