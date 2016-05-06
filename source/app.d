@@ -62,7 +62,7 @@ renderTemplate (HTTPServerResponse response, string file, Context ctx)
          case "api"    : title = "API"     ; break;
          case "contact": title = "Contact" ; break;
          case "roadmap": title = "Roadmap" ; break;
-         case "decrypt": title = "Decrypt" ; break;
+         case "decrypt":                   ; break;
      }
 
     ctx ["page-title"] = title;
@@ -136,6 +136,7 @@ class WebInterface
             /* fix bug escaped char */
 
             Context ctx = new Context;
+            ctx ["paste-title"]   = "Decrypt" ~ _id;
             ctx ["paste-id"]      = _id;
             ctx ["paste-pass"]    = _pass;
             ctx ["paste-content"] = content;
