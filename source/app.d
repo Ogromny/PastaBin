@@ -55,14 +55,14 @@ renderTemplate (HTTPServerResponse response, string file, Context ctx)
 {
     string title;
 
-    final switch (file)
+    switch (file)
      {
          case "index"  : title = "Welcome!"; break;
          case "about"  : title = "About us"; break;
          case "api"    : title = "API"     ; break;
          case "contact": title = "Contact" ; break;
          case "roadmap": title = "Roadmap" ; break;
-         case "decrypt":                   ; break;
+         default:                            break;
      }
 
     ctx ["page-title"] = title;
@@ -110,8 +110,8 @@ class WebInterface
         encrypt (string paste_title, string paste_content, string paste_pass = string.init)
         {
             string title    = paste_title;
-            // string password = toSHA256 (paste_pass ~ secret_salt);
-            string password = toHexString (sha256Of (paste_pass ~ secret_salt));
+            string password = toSHA256 (paste_pass ~ secret_salt);
+            // string password = toHexString (sha256Of (paste_pass ~ secret_salt));
             string content  = dcrypto_utils.encrypt(paste_content, password, secret_salt);
 
             Bson message        = Bson.emptyObject;
