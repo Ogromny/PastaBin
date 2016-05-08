@@ -111,7 +111,6 @@ class WebInterface
         {
             string title    = paste_title;
             string password = toSHA256 (paste_pass ~ secret_salt);
-            // string password = toHexString (sha256Of (paste_pass ~ secret_salt));
             string content  = dcrypto_utils.encrypt(paste_content, password, secret_salt);
 
             Bson message        = Bson.emptyObject;
