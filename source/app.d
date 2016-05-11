@@ -10,9 +10,10 @@ import string_utils;
 
 enum
 {
-    NGINX_IS_USE = false,
-    HTML_STATUS  = "text/html;charset=UTF-8",
-    URL          = "pastabin.pw",
+    URL           = "pastabin.pw",
+    NGINX_IS_USE  = false,
+    HTML_STATUS   = "text/html;charset=UTF-8",
+    PLAIN_STATUS  = "text/plain;charset=UTF-8",
 }
 
 shared static
@@ -148,5 +149,16 @@ class WebInterface
             ctx ["paste-pass"]    = _pass;
 
             renderTemplate(response, "decrypt", ctx);
+        }
+
+        @method (HTTPMethod.GET) @path ("/raw/:id/:pass/") void
+        raw (HTTPServerResponse response, string _id, string _pass)
+        {
+            Json paste = findMessage (_id);
+
+            string content = paste ["content"].toString;
+            content = content.delFirstLastChar.fixNewLineEscapedChar.fixEscapedChar;
+
+            response.writeBody (content, 200, PLAIN_STATUS);
         }
 }
