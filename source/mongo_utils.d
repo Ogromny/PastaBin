@@ -8,7 +8,7 @@ void
 initPastabin_db_message ()
 {
     pastabin_db_message = connectMongoDB ("127.0.0.1").
-                          getCollection ("pastabin_message");
+                          getCollection ("pastabin.pastabin_message");
 }
 
 void

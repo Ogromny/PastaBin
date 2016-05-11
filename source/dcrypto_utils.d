@@ -2,7 +2,7 @@ module dcrypto_utils;
 
 private import dcrypto.evp;
 
-string
+auto
 encrypt (string content, string password, string salt)
 {
     auto key = keyFromSecret (password, salt);
@@ -11,7 +11,7 @@ encrypt (string content, string password, string salt)
     return encryptor.encrypt (content);
 }
 
-string
+auto
 decrypt (string content, string password, string salt)
 {
     auto key = keyFromSecret (password, salt);

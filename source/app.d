@@ -6,6 +6,7 @@ import mustache_utils;
 import dcrypto_utils;
 import sha_utils;
 import mongo_utils;
+import string_utils;
 
 enum
 {
@@ -32,6 +33,7 @@ this ()
     settings.errorPageHandler   = toDelegate(&errorPageHandler);
 
     initMustache ("views/", "html");
+    initPastabin_db_message ();
 
     listenHTTP (settings, router);
 }
@@ -65,7 +67,10 @@ renderTemplate (HTTPServerResponse response, string file, Context ctx)
          default:                            break;
      }
 
-    ctx ["page-title"] = title;
+    if (title != string.init)
+     {
+         ctx ["page-title"] = title;
+     }
 
     string html = global_mustache.render (file, ctx);
 
@@ -110,8 +115,9 @@ class WebInterface
         encrypt (string paste_title, string paste_content, string paste_pass = string.init)
         {
             string title    = paste_title;
-            string password = toSHA256 (paste_pass ~ secret_salt);
-            string content  = dcrypto_utils.encrypt(paste_content, password, secret_salt);
+            string password = toHexString(toSHA256 (paste_pass ~ secret_salt));
+            // string content  = dcrypto_utils.encrypt(paste_content, password, secret_salt);
+            string content  = paste_content;
 
             Bson message        = Bson.emptyObject;
             message ["_id"]     = BsonObjectID.generate ();
@@ -120,7 +126,7 @@ class WebInterface
 
             add (message);
 
-            redirect (URL ~ "/p/" ~ message.toString ~ "/" ~ password ~ "/");
+            redirect ("/p/" ~ delFirstLastChar (message["_id"].toString) ~ "/" ~ password ~ "/");
         }
 
         @method (HTTPMethod.GET) @path ("/p/:id/:pass/") void
@@ -128,17 +134,18 @@ class WebInterface
         {
             Json paste = findMessage (_id);
 
-            string title = paste ["title"].toString;
-            string password = _pass;
-            string content = dcrypto_utils.decrypt (paste ["content"].toString, password, secret_salt);
+            string title   = paste ["title"].toString;
+            string content = paste ["content"].toString;
 
-            /* fix bug escaped char */
+            title   = title.delFirstLastChar.fixNewLineEscapedChar.fixEscapedChar;
+            content = content.delFirstLastChar.fixNewLineEscapedChar.fixEscapedChar;
 
             Context ctx = new Context;
-            ctx ["paste-title"]   = "Decrypt" ~ _id;
+            ctx ["page-title"]    = "Decrypt" ~ title;
             ctx ["paste-id"]      = _id;
-            ctx ["paste-pass"]    = _pass;
+            ctx ["paste-title"]   = title;
             ctx ["paste-content"] = content;
+            ctx ["paste-pass"]    = _pass;
 
             renderTemplate(response, "decrypt", ctx);
         }
