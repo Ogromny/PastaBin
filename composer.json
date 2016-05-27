@@ -1,0 +1,39 @@
+{
+	"name": "mako/app",
+	"description": "Mako Framework",
+	"keywords": ["mako", "framework"],
+	"homepage": "http://makoframework.com",
+	"license": "BSD-3-Clause",
+	"authors": [
+		{
+			"name": "Frederic G. Østby",
+			"email": "frederic.g.ostby@gmail.com"
+		},
+		{
+			"name": "Contributors",
+			"homepage": "http://makoframework.com/contributors"
+		}
+	],
+	"autoload": {
+		"psr-4": {
+			"app\\": "app"
+		}
+	},
+	"require": {
+		"php": ">=5.5.0",
+		"mako/framework": "4.5.*"
+	},
+	"config": {
+	    "preferred-install": "dist"
+	},
+	"minimum-stability": "dev",
+	"prefer-stable": true,
+	"extra": {
+		"branch-alias": {
+			 "dev-master": "4.5-dev"
+		}
+	},
+	"suggest": {
+		"mako/toolbar": "Makes it easier to debug your application while its under development"
+	}
+}
