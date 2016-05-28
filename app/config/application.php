@@ -21,7 +21,7 @@ return
 	 * You should NOT use the secret included with the framework in a production environment!
 	 */
 
-	'secret' => '2fd0af1675adbdfb53804f6ad541d6d1b76638e93cbfeec372f752b3951e09d5',
+	'secret' => 'pROsjr5WjNhmb3TY1ituCC90QdFM7eIBalCvxAN5zO83tb32yFbrwofYXZD3UKf7',
 
 	/**
 	 * ---------------------------------------------------------

@@ -10,7 +10,7 @@ return
 	 * Default configuration to use.
 	 */
 
-	'default' => 'test',
+	'default' => 'sql-dev',
 
 	/**
 	 * ---------------------------------------------------------
@@ -30,11 +30,11 @@ return
 
 	'configurations' =>
 	[
-		'test' =>
+		'sql-dev' =>
 		[
-			'dsn'         => 'mysql:dbname=test;host=localhost;port=3306',
-			'username'    => 'username',
-			'password'    => 'password',
+			'dsn'         => 'mysql:dbname=pastabin;host=localhost;port=3306',
+			'username'    => 'root',
+			'password'    => '',
 			'persistent'  => false,
 			'log_queries' => false,
 			'reconnect'   => false,
@@ -44,7 +44,7 @@ return
 			],
 		],
 
-		'sqlite' =>
+		/*'sqlite' =>
 		[
 			'dsn'         => 'sqlite:' . MAKO_APPLICATION_PATH . '/storage/database/test.sqlite',
 			'log_queries' => false,
@@ -53,6 +53,6 @@ return
 			[
 				"PRAGMA encoding = 'UTF-8'",
 			],
-		],
+		],*/
 	],
 ];

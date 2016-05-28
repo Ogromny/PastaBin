@@ -20,7 +20,7 @@ return
 	 * Using a unique session name will prevent session collisions with other applications.
 	 */
 
-	'session_name' => 'mako_session',
+	'session_name' => 'pastabin_session',
 
 	/**
 	 * ---------------------------------------------------------

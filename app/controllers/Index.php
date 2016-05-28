@@ -1,26 +1,28 @@
 <?php
-
 namespace app\controllers;
 
 use mako\http\routing\Controller;
+use mako\http\routing\URLBuilder;
 use mako\view\ViewFactory;
 
-/**
- * Welcome controller.
- */
-
-class Index extends Controller
-{
-	/**
-	 * Welcome route.
-	 *
-	 * @access  public
-	 * @param   \mako\view\ViewFactory  $view  View factory
-	 * @return  string
-	 */
-
-	public function welcome(ViewFactory $view)
-	{
+class Index extends Controller {
+	public function welcome(ViewFactory $view) {
 		return $view->create('welcome');
+	}
+
+	public function about(ViewFactory $view) {
+		return $view->create('about');
+	}
+
+	public function api(ViewFactory $view) {
+		return $view->create('api');
+	}
+
+	public function contact(ViewFactory $view) {
+		return $view->create('contact');
+	}
+
+	public function roadmap(ViewFactory $view) {
+		return $view->create('roadmap');
 	}
 }

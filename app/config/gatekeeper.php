@@ -10,7 +10,7 @@ return
 	 * The supported identifier types are "email" and "username".
 	 */
 
-	'identifier' => 'email',
+	'identifier' => 'username',
 
 	/**
 	 * ---------------------------------------------------------

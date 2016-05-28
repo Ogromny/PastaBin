@@ -1,17 +1,21 @@
 {
-	"name": "mako/app",
-	"description": "Mako Framework",
-	"keywords": ["mako", "framework"],
-	"homepage": "http://makoframework.com",
-	"license": "BSD-3-Clause",
+	"name": "pastabin/app",
+	"description": "PastaBin aims to be a modern and secure pastebin replacement!",
+	"keywords": ["pastabin", "text sharing", "paste", "secure"],
+	"homepage": "https://pastabin.pw",
+	"license": "MIT",
 	"authors": [
 		{
-			"name": "Frederic G. Østby",
-			"email": "frederic.g.ostby@gmail.com"
+			"name": "Ogromny",
+			"email": "ogromnym@openmailbox.org"
+		},
+		{
+			"name": "SkyzohKey",
+			"email": "skyzohkey@protonmail.com"
 		},
 		{
 			"name": "Contributors",
-			"homepage": "http://makoframework.com/contributors"
+			"homepage": "https://pastabin.pw/contributors"
 		}
 	],
 	"autoload": {
