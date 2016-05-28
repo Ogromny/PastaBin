@@ -27,8 +27,13 @@ class Index extends Controller {
 	}
 
 	public function encrypt(ViewFactory $view) {
-		$title     = $this->request->post('paste_title');
-		$password  = $this->request->post('paste_pass');
-		$content   = $this->request->post('paste_content'); 
+		$title     = $this->request->post('paste_title', false);
+		$password  = $this->request->post('paste_pass', false);
+		$content   = $this->request->post('paste_content', false);
+
+		if (!$title OR !$password OR !$content) {
+			// Replace with an error
+			return "Invalid argument";
+		}
 	}
 }
