@@ -25,4 +25,10 @@ class Index extends Controller {
 	public function roadmap(ViewFactory $view) {
 		return $view->create('roadmap');
 	}
+
+	public function encrypt(ViewFactory $view) {
+		$title     = $this->request->post('paste_title');
+		$password  = $this->request->post('paste_pass');
+		$content   = $this->request->post('paste_content'); 
+	}
 }
