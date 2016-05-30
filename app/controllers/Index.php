@@ -35,5 +35,15 @@ class Index extends Controller {
 			// Replace with an error
 			return "Invalid argument";
 		}
+
+		return $title . "\n" . $password . "\n" . $content;
+
+		/**
+		 * INSERT IN BDD
+		 */
+
+		/**
+		 * REDIRECT TO THE DECYRPTED PAGE
+		 */
 	}
 }

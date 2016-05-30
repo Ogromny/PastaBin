@@ -49,7 +49,7 @@
 			  <li><a href="/roadmap">Roadmap</a></li>
 			  <li><a href="https://github.com/Ogromny/PastaBin/">GitHub</a></li>
 			  <li><a href="/contact">Contact</a></li>
-			</ul>
+          </ul>
 		  </nav>
 		</div>
 	  </footer>
