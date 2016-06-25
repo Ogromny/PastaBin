@@ -37,7 +37,7 @@
   * [ ] Public ;
   * [ ] Secret (access allowed only via link) ;
   * [ ] Private (no access except authorized accounts).
-* [ ] Ability to backup/restore pastes  
+* [ ] Ability to backup/restore pastes:  
   * [ ] Defining an import/export format ;
   * [ ] Export ;
   * [ ] Import.
@@ -46,12 +46,12 @@
 * Tools to share a paste without using the website:
   * CLI Tools (terminal):
     * [ ] GNU/Linux ;
-    * [ ] Apple OSX ;.
+    * [ ] Apple OSX ;
     * [ ] Windows.
   * GUI Tools:
     * [ ] GNU/Linux ;
     * [ ] Android ;
-    * [ ] Apple OSX ;
+    * [ ] Mac OSX ;
     * [ ] Apple iOS ;
     * [ ] Windows ;
     * [ ] Windows Phone.
