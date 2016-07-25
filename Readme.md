@@ -1,1 +1,1 @@
-# PastaBin - PHP7 Rewrite.
+# PastaBin - Sinatra Rewrite.
