@@ -1,7 +1,5 @@
-require 'sass/plugin/rack'
-require_relative 'app'
+# This file is used by Rack-based servers to start the application.
 
-Sass::Plugin.options[:style] = :compressed
-use Sass::Plugin::Rack
+require_relative 'config/environment'
 
-run PastaBin
+run Rails.application
